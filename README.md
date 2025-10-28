@@ -372,6 +372,11 @@ proc-user=turnserver
 proc-group=turnserver
 ```
 
+NOTE: this configuration is most likely not secure. This depends on your setup,
+but you most likely want to prevent access to certain IP address ranges using
+`denied-peer-ip`, otherwise `coturn` will make it possible for anyone to
+connect to your local services from the outside.
+
 Change the `p4ssw0rd`, `realm`  and paths to server certificates.
 
 Use the following configuration for Peer Calls:
