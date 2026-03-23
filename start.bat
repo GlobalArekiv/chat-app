@@ -52,6 +52,7 @@ echo.
 
 set PEERCALLS_FS=.
 set PEERCALLS_NETWORK_TYPE=sfu
+set PEERCALLS_ICE_SERVER_URLS=stun:stun.l.google.com:19302,stun:global.stun.twilio.com:3478
 go run main.go
 
 pause

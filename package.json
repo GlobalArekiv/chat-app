@@ -10,9 +10,9 @@
     "peer-calls": "./lib/index.js"
   },
   "scripts": {
-    "start": "npm run build && PEERCALLS_FS=. PEERCALLS_NETWORK_TYPE=sfu go run main.go",
-    "start:mesh": "npm run build && PEERCALLS_FS=. go run main.go",
-    "start:sfu": "npm run build && PEERCALLS_FS=. PEERCALLS_NETWORK_TYPE=sfu go run main.go",
+    "start": "npm run build && cross-env PEERCALLS_FS=. PEERCALLS_NETWORK_TYPE=sfu go run main.go",
+    "start:mesh": "npm run build && cross-env PEERCALLS_FS=. go run main.go",
+    "start:sfu": "npm run build && cross-env PEERCALLS_FS=. PEERCALLS_NETWORK_TYPE=sfu go run main.go",
     "dev": "concurrently --kill-others \"npm run js:watch\" \"npm run css:watch\" \"npm run start\"",
     "dev:mesh": "concurrently --kill-others \"npm run js:watch\" \"npm run css:watch\" \"npm run start:mesh\"",
     "start:watch": "chastifol [ npm run js:watch ] [ npm run css:watch ] [ npm run start ]",
@@ -64,7 +64,9 @@
     "buffer": "^6.0.3",
     "chastifol": "^4.1.0",
     "classnames": "^2.5.1",
+    "concurrently": "^9.2.1",
     "core-js": "^3.49.0",
+    "cross-env": "^10.1.0",
     "debug": "^4.4.3",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.32.0",

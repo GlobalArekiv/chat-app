@@ -44,7 +44,7 @@ class PeerHandler {
   handleError = (err: Error) => {
     const { dispatch, getState, peer } = this
     debug('peer: %s, error %s', peer.id, err.stack)
-    dispatch(NotifyActions.error('A peer connection error occurred'))
+    dispatch(NotifyActions.error(`A peer connection error occurred: ${err.message || 'Unknown issue'}`))
     const pc = getState().peers[peer.id]
     pc && pc.instance.destroy()
     dispatch(removePeer(peer.id))
@@ -158,17 +158,12 @@ export function createPeer (options: CreatePeerOptions) {
       config: {
         iceServers: peerConfig.iceServers,
         encodedInsertableStreams: peerConfig.encodedInsertableStreams,
-        // legacy flags for insertable streams
-        enableInsertableStreams: peerConfig.encodedInsertableStreams,
-        forceEncodedVideoInsertableStreams:
-          peerConfig.encodedInsertableStreams,
-        forceEncodedAudioInsertableStreams:
-          peerConfig.encodedInsertableStreams,
       },
       channelName: constants.PEER_DATA_CHANNEL_NAME,
       // trickle: false,
       // Allow the peer to receive video, even if it's not sending stream:
       // https://github.com/feross/simple-peer/issues/95
+      // @ts-ignore - 'offerConstraints' is valid in simple-peer but missing in @types
       offerConstraints: {
         offerToReceiveAudio: true,
         offerToReceiveVideo: true,

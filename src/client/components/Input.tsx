@@ -10,6 +10,12 @@ export interface InputState {
   message: string
 }
 
+const EMOJIS = [
+  '😀', '😂', '🤣', '😊', '😍', '😘', '🥰', '😜', '🤪', '😎',
+  '🤔', '🙄', '😬', '😔', '😢', '😭', '😱', '😡', '🤯', '🤦‍♂️',
+  '👍', '👎', '🙏', '❤️', '💔', '💯', '✨', '🎉', '🔥', '💡'
+]
+
 const hidden = {
   display: 'none',
 }
@@ -96,18 +102,17 @@ export default class Input extends React.PureComponent<InputProps, InputState> {
           <div className="chat-controls-buttons-wrapper">
             <div className="emoji">
               <div className="chat-controls-buttons-smiles">
-                <MdSentimentSatisfied />
+                <MdSentimentSatisfied className="icon" />
                 <div className="chat-controls-buttons-smiles-menu">
-                  <span className="chat-controls-buttons-smile"
-                    onClick={this.handleSmileClick}>😑</span>
-                  <span className="chat-controls-buttons-smile"
-                    onClick={this.handleSmileClick}>😕</span>
-                  <span className="chat-controls-buttons-smile"
-                    onClick={this.handleSmileClick}>😊</span>
-                  <span className="chat-controls-buttons-smile"
-                    onClick={this.handleSmileClick}>😎</span>
-                  <span className="chat-controls-buttons-smile"
-                    onClick={this.handleSmileClick}>💪</span>
+                  {EMOJIS.map(emoji => (
+                    <span 
+                      key={emoji} 
+                      className="chat-controls-buttons-smile"
+                      onClick={this.handleSmileClick}
+                    >
+                      {emoji}
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>

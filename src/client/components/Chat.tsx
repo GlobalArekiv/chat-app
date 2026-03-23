@@ -79,37 +79,48 @@ export default class Chat extends React.PureComponent<ChatProps> {
         <div className='chat-history' ref={this.chatHistoryRef}>
 
           {messages.length ? (
-            messages.map((message, i) => (
+            messages.map((message, i) => {
+              const nickname = getNickname(this.props.nicknames, message.peerId)
+              const isSystem = nickname === '[PeerCalls]'
+
+              if (isSystem) {
+                return (
+                  <div key={i} className='chat-item chat-item-system'>
+                    <div className='message-system'>
+                      <span className='message-text'>
+                        {!message.data && message.message}
+                      </span>
+                      <time className='message-time'>{message.timestamp}</time>
+                    </div>
+                  </div>
+                )
+              }
+
+              return (
               <div key={i}>
                 {message.peerId === ME ? (
                   <div className='chat-item chat-item-me'>
                     <div className='message'>
-                      <span className='message-user-name'>
-                        {getNickname(this.props.nicknames, message.peerId)}
-                      </span>
-                      <time className='message-time'>{message.timestamp}</time>
+                      <div className='message-header'>
+                        <span className='message-user-name'>{nickname}</span>
+                        <time className='message-time'>{message.timestamp}</time>
+                      </div>
                       <MessageEntry message={message} />
                     </div>
-                    <span className='chat-item-img'>
-                      <MdFace />
-                    </span>
                   </div>
                 ) : (
                   <div className='chat-item chat-item-other'>
-                    <span className='chat-item-img'>
-                      <MdFace />
-                    </span>
                     <div className='message'>
-                      <span className='message-user-name'>
-                        {getNickname(this.props.nicknames, message.peerId)}
-                      </span>
-                      <time className='message-time'>{message.timestamp}</time>
+                      <div className='message-header'>
+                        <span className='message-user-name'>{nickname}</span>
+                        <time className='message-time'>{message.timestamp}</time>
+                      </div>
                       <MessageEntry message={message} />
                     </div>
                   </div>
                 )}
               </div>
-            ))
+            )})
           ) : (
             <div className='chat-empty'>
               <span className='chat-empty-icon'>

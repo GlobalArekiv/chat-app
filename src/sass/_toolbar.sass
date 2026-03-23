@@ -75,7 +75,7 @@
   &.toolbar-call
     bottom: 1.5rem
     left: 50%
-    margin-left: -224px
+    transform: translateX(-50%)
     flex-direction: row
     background: rgba(5, 12, 28, 0.82)
     backdrop-filter: blur(20px) saturate(1.5)
@@ -212,7 +212,8 @@
     gap: 0.25rem
 
     &.toolbar-call
-      margin-left: -150px
+      transform: translateX(-50%) scale(0.9)
+      bottom: 1rem
 
     .icon
       width: 36px

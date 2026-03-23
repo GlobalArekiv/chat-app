@@ -167,77 +167,70 @@ export default class Toolbar extends React.PureComponent<
 
     return (
       <React.Fragment>
-        <div className={'toolbar-other ' + className}>
-          <ToolbarButton
-            className='copy-url'
-            key='copy-url'
-            icon={canShare(navigator) ? MdShare : MdContentCopy}
-            onClick={this.copyInvitationURL}
-            title={canShare(navigator) ? 'Share' : 'Copy Invitation URL'}
-          />
-          {isInCall && (
-            <React.Fragment>
-              <ToolbarButton
-                badge={unreadCount}
-                className='toolbar-btn-chat'
-                key='chat'
-                icon={MdQuestionAnswer}
-                blink={!chatVisible && hasUnread}
-                onClick={this.handleToggleSidebar}
-                on={chatVisible}
-                title='Show Sidebar'
-              />
-            </React.Fragment>
-          )}
-
-          {config.peerConfig.encodedInsertableStreams && (
-            <div className='encryption-wrapper'>
-              <ToolbarButton
-                onClick={this.toggleEncryptionDialog}
-                key='encryption'
-                className={classnames('encryption', {
-                  'encryption-enabled': this.state.encrypted,
-                })}
-                on={this.state.encryptionDialogVisible || this.state.encrypted}
-                icon={encryptionIcon}
-                title='Setup Encryption'
-              />
-              <div
-                className={classnames('encryption-dialog', {
-                  'encryption-dialog-visible':
-                    this.state.encryptionDialogVisible,
-                })}
-              >
-                <div className='encryption-form'>
-                  <input
-                    autoComplete='off'
-                    name='encryption-key'
-                    className='encryption-key'
-                    placeholder='Enter Passphrase'
-                    ref={this.encryptionKeyInputRef}
-                    type='password'
-                    onKeyUp={this.setPasswordOnEnter}
-                  />
-                  <button onClick={this.setPassword}>Save</button>
-                </div>
-                <div className='note'>
-                  <p><MdWarning /> Experimental functionality for A/V only.</p>
-                  {!this.supportsInsertableStreams && (
-                    <p>
-                      Your browser does not support Insertable Streams;
-                      currently only Chrome has support. If you are using
-                      Chrome, please make sure Experimental Web Platform
-                      Features are enabled in chrome://flags.
-                    </p>
-                  )} </div>
-              </div>
-            </div>
-          )}
-
-        </div>
-
         {isInCall && (
           <div className={'toolbar-call ' + className}>
+            <ToolbarButton
+              className='copy-url'
+              key='copy-url'
+              icon={canShare(navigator) ? MdShare : MdContentCopy}
+              onClick={this.copyInvitationURL}
+              title={canShare(navigator) ? 'Share' : 'Copy Invitation URL'}
+            />
+
+            <ToolbarButton
+              badge={unreadCount}
+              className='toolbar-btn-chat'
+              key='chat'
+              icon={MdQuestionAnswer}
+              blink={!chatVisible && hasUnread}
+              onClick={this.handleToggleSidebar}
+              on={chatVisible}
+              title='Show Sidebar'
+            />
+
+            {config.peerConfig.encodedInsertableStreams && (
+              <div className='encryption-wrapper'>
+                <ToolbarButton
+                  onClick={this.toggleEncryptionDialog}
+                  key='encryption'
+                  className={classnames('encryption', {
+                    'encryption-enabled': this.state.encrypted,
+                  })}
+                  on={this.state.encryptionDialogVisible || this.state.encrypted}
+                  icon={encryptionIcon}
+                  title='Setup Encryption'
+                />
+                <div
+                  className={classnames('encryption-dialog', {
+                    'encryption-dialog-visible':
+                      this.state.encryptionDialogVisible,
+                  })}
+                >
+                  <div className='encryption-form'>
+                    <input
+                      autoComplete='off'
+                      name='encryption-key'
+                      className='encryption-key'
+                      placeholder='Enter Passphrase'
+                      ref={this.encryptionKeyInputRef}
+                      type='password'
+                      onKeyUp={this.setPasswordOnEnter}
+                    />
+                    <button onClick={this.setPassword}>Save</button>
+                  </div>
+                  <div className='note'>
+                    <p><MdWarning /> Experimental functionality for A/V only.</p>
+                    {!this.supportsInsertableStreams && (
+                      <p>
+                        Your browser does not support Insertable Streams.
+                      </p>
+                    )} </div>
+                </div>
+              </div>
+            )}
+
+            <div style={{ width: '1px', height: '24px', background: 'rgba(255,255,255,0.1)', margin: '0 8px' }} />
+
             <ShareDesktopDropdown
               className='stream-desktop'
               icon={MdScreenShare}

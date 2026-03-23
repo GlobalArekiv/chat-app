@@ -16,7 +16,7 @@ func TestReadConfig(t *testing.T) {
 	assert.Nil(t, err, "error reading config")
 	assert.Equal(t, 2, len(c.ICEServers))
 	assert.Equal(t, []string{"stun:stun.l.google.com:19302"}, c.ICEServers[0].URLs)
-	assert.Equal(t, []string{"stun:global.stun.twilio.com:3478?transport=udp"}, c.ICEServers[1].URLs)
+	assert.Equal(t, []string{"stun:global.stun.twilio.com:3478"}, c.ICEServers[1].URLs)
 	assert.Equal(t, server.NetworkTypeMesh, c.Network.Type)
 	assert.Equal(t, server.StoreTypeMemory, c.Store.Type)
 }
@@ -134,7 +134,7 @@ func TestReadFromEnv(t *testing.T) {
 			},
 			{
 				URLs: []string{
-					"stun:global.stun.twilio.com:3478?transport=udp",
+					"stun:global.stun.twilio.com:3478",
 				},
 			},
 		}, c.ICEServers)
