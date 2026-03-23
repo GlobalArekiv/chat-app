@@ -85,7 +85,7 @@ func newServerCmd(props Props) *command.Command {
 
 	return command.New(command.Params{
 		Name:         "server",
-		Desc:         "Starts the peer-calls server (default)",
+		Desc:         "Starts the Friendship Call server (default)",
 		FlagRegistry: h,
 		Handler:      h,
 		SubCommands:  nil,

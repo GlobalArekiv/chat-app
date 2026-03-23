@@ -21,12 +21,12 @@ import (
 
 func buildManifest(baseURL string) []byte {
 	b, _ := json.Marshal(map[string]interface{}{
-		"name":             "Peer Calls",
-		"short_name":       "Peer Calls",
+		"name":             "VidyaX",
+		"short_name":       "VidyaX",
 		"start_url":        baseURL,
 		"display":          "standalone",
-		"background_color": "#086788",
-		"description":      "Group peer-to-peer calls for everyone. Create a private room. Share the link.",
+		"background_color": "#1a67d0",
+		"description":      "VidyaX - Secure peer-to-peer video conferencing solution.",
 		"icons": []map[string]string{{
 			"src":   baseURL + "/res/icon.png",
 			"sizes": "256x256",

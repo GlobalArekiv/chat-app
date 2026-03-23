@@ -2,6 +2,7 @@ import React from 'react'
 
 export interface MessageProps {
   className: string
+  children?: React.ReactNode
 }
 
 export class Message extends React.PureComponent<MessageProps> {

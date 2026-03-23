@@ -5,7 +5,8 @@
   margin: 0 auto
   max-width: 450px
   text-align: center
-  padding: 4rem 0.5rem 1rem
+  padding: 3rem 0.75rem 1rem
+  color: #e4efff
 
   display: flex
   flex-direction: column
@@ -15,7 +16,9 @@
     margin-bottom: 1rem
 
     video
-      border-radius: 4px
+      border-radius: 12px
+      border: 1px solid rgba(134, 168, 225, 0.26)
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28)
       background-color: rgba(black, 0.3)
       display: block
       max-height: 200px
@@ -26,7 +29,7 @@
     left: 0
     right: 0
     opacity: 0
-    color: #D35731
+    color: #ffb5b5
     font-size: 0.8rem
     width: 100%
     display: block
@@ -42,24 +45,24 @@
     -moz-appearance: none
     //  Remove default arrow
     appearance: none
-    border: 2px solid transparent
-    border-radius: 4px
-    border-bottom: 2px solid darken(#fff, 10%)
-    color: black
-    background-color: white
+    border: 1px solid rgba(134, 168, 225, 0.3)
+    border-radius: 10px
+    border-bottom: 2px solid rgba(37, 99, 235, 0.45)
+    color: #e5efff
+    background-color: rgba(20, 41, 74, 0.92)
     width: 100%
     transition: border-radius 100ms ease-in, border-color 100ms ease-in
 
   input.error
-    border: 2px solid #D35731
+    border: 2px solid #ff7d7d
 
   select
     cursor: pointer
     &:hover
-      background-color: darken(white, 5%)
+      background-color: rgba(29, 55, 96, 0.95)
 
     &:active
-      background-color: darken(white, 10%)
+      background-color: rgba(29, 55, 96, 1)
 
   select, input, button
     font-size: 1.2rem
@@ -79,5 +82,4 @@
   .network-info
     font-size: 0.8rem
     border-radius: 0.5rem
-    color: white
-    text-shadow: 0 0 2px black
+    color: #bfd4f2

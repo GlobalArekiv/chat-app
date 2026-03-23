@@ -75,6 +75,7 @@ export default class Chat extends React.PureComponent<ChatProps> {
     const { messages, sendFile, sendText } = this.props
     return (
       <div className='chat'>
+        <h3 className='panel-title'>Messages</h3>
         <div className='chat-history' ref={this.chatHistoryRef}>
 
           {messages.length ? (
@@ -114,7 +115,7 @@ export default class Chat extends React.PureComponent<ChatProps> {
               <span className='chat-empty-icon'>
                 <MdQuestionAnswer />
               </span>
-              <div className='chat-empty-message'>No Notifications</div>
+              <div className='chat-empty-message'>No messages yet</div>
             </div>
           )}
 

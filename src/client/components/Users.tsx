@@ -52,9 +52,11 @@ class User extends React.PureComponent<UserProps> {
 class Users extends React.PureComponent<UsersProps> {
   render() {
     const { onMinimizeToggle, play, streams } = this.props
+    const hasParticipants = streams.length > 0
 
     return (
       <div className='users'>
+        <h3 className='panel-title'>People in this call</h3>
         <ul className='users-list'>
           {map(streams, (stream) => (
             <User
@@ -64,7 +66,19 @@ class Users extends React.PureComponent<UsersProps> {
               play={play}
             />
           ))}
+          {!streams.length && (
+            <li className='list-empty'>No participants are connected yet.</li>
+          )}
         </ul>
+        
+        {hasParticipants && (
+          <div className='users-options'>
+            <button className='option-btn'>Mute All</button>
+            <button className='option-btn'>Arrange Grid</button>
+            <button className='option-btn'>Record Session</button>
+          </div>
+        )}
+        
         <div></div> {/*necessary for flex to stretch */}
       </div>
     )

@@ -6,11 +6,13 @@
   -ms-transform: translateX(100%)
   -webkit-transform: translateX(100%)
   transform: translateX(100%)
-  transition: transform 0.5s cubic-bezier(0.55, 0, 0, 1), box-shadow 0.5s cubic-bezier(0.55, 0, 0, 1)
+  transition: transform 0.4s cubic-bezier(0.55, 0, 0, 1), box-shadow 0.4s cubic-bezier(0.55, 0, 0, 1)
   width: 320px
   margin: 0 auto
   z-index: $z-index-sidebar
-  background-color: #fff
+  background: rgba(7, 19, 37, 0.93)
+  backdrop-filter: blur(10px)
+  border-left: 1px solid rgba(134, 168, 225, 0.2)
 
   display: flex
   flex-direction: column
@@ -19,18 +21,19 @@
     -ms-transform: none
     -webkit-transform: none
     transform: none
-    box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.19), 0 1px 6px rgba(0, 0, 0, 0.12)
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.4)
 
   @media (max-width: 375.98px)
     &.show
       width: 100% !important
 
 .sidebar-header
-  background: #42a7a1
-  color: #fff
+  background: rgba(9, 26, 51, 0.95)
+  color: #f3f7ff
   height: 52px
   line-height: 52px
   flex-grow: 0
+  border-bottom: 1px solid rgba(134, 168, 225, 0.2)
 
   .sidebar-close
     font-size: 24px
@@ -46,12 +49,12 @@
       float: right
       a
         font-size: 24px
-        color: #fff
+        color: #dce9ff
 
   .sidebar-menu
     font-size: 18px
     font-weight: 500
-    color: #ccc
+    color: #89a1c6
     text-overflow: ellipsis
     text-transform: uppercase
 
@@ -84,10 +87,10 @@
         transition: left 100ms ease-in, right 100ms ease-out
 
       &.active
-        color: #fff
+        color: #f4f8ff
 
         &::after
-          background-color: #fff
+          background-color: #4f8cff
           left: 0
           right: 0
 
@@ -98,3 +101,12 @@
   display: flex
   flex-grow: 1
   flex-shrink: 1
+
+.panel-title
+  margin: 0
+  padding: 0.9rem 1rem
+  font-size: 0.82rem
+  letter-spacing: 0.08em
+  text-transform: uppercase
+  color: #8ea9cd
+  border-bottom: 1px solid rgba(134, 168, 225, 0.2)

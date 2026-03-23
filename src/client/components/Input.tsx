@@ -45,10 +45,11 @@ export default class Input extends React.PureComponent<InputProps, InputState> {
     .forEach((file) =>
       this.props.sendFile(file),
     )
+    event.target.value = ''
   }
   submit = () => {
     const { sendText } = this.props
-    const { message } = this.state
+    const message = this.state.message.trim()
     if (message) {
       sendText(message)
     }
@@ -59,6 +60,7 @@ export default class Input extends React.PureComponent<InputProps, InputState> {
   }
   render () {
     const { message } = this.state
+    const disabled = !message.trim().length
     return (
       <form className="chat-controls" onSubmit={this.handleSubmit}>
         <input
@@ -72,17 +74,21 @@ export default class Input extends React.PureComponent<InputProps, InputState> {
           className="chat-controls-textarea"
           onChange={this.handleChange}
           onKeyPress={this.handleKeyPress}
-          placeholder="Type a message"
+          placeholder="Type a message..."
           value={message}
           ref={this.textArea}
         />
+        <p className="chat-controls-helper">
+          Press Enter to send. Shift + Enter for a new line.
+        </p>
         <div className="chat-controls-buttons">
           <input type="submit" value="Send"
+            disabled={disabled}
             className="chat-controls-buttons-send"
           />
           <input
-            type="submit"
-            value="Send File"
+            type="button"
+            value="Attach File"
             className="chat-controls-buttons-send-file"
             onClick={this.handleSendFile}
           />

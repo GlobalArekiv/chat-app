@@ -6,8 +6,8 @@ import (
 
 func NewRootCommand(props Props) *command.Command {
 	return command.New(command.Params{
-		Name: "peer-calls",
-		Desc: "Peer Calls is a distributed conferencing solution.",
+		Name: "VidyaX",
+		Desc: "VidyaX - Secure peer-to-peer video conferencing solution.",
 		ArgsPreProcessor: command.ArgsProcessorFunc(func(c *command.Command, args []string) []string {
 			for _, arg := range args {
 				if len(arg) > 0 && arg[0] != '-' {

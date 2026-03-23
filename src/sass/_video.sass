@@ -36,24 +36,48 @@ $shadow-size: 2px
   overflow: hidden
 
 .video-container
-  background-color: rgba(black, 0.3)
-  box-shadow: 0px 0px 1px rgba(black, 0.3)
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(26, 58, 82, 0.5) 100%)
+  border: 1px solid rgba(37, 99, 235, 0.2)
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05)
+  border-radius: 16px
+  overflow: hidden
   position: relative
   display: flex
+  margin: 0.25rem
+  transition: all 220ms cubic-bezier(0.34, 1.56, 0.64, 1)
+
+  // Hover effects - Google Meet style
+  &:hover
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08)
+    border-color: rgba(37, 99, 235, 0.35)
+    transform: translateY(-2px)
+
+    .video-footer
+      background: linear-gradient(to top, rgba(5, 12, 24, 0.85), rgba(5, 12, 24, 0.4))
+
+  // Active speaker highlighting
+  &.active-speaker
+    box-shadow: 0 12px 32px rgba(26, 103, 208, 0.4), inset 0 0 0 2px rgba(37, 99, 235, 0.5)
+    border-color: rgba(37, 99, 235, 0.6)
+
+    .participant-info
+      background: linear-gradient(90deg, rgba(26, 103, 208, 0.15), transparent)
 
   .nickname
     border: none
-    background: transparent
+    background: linear-gradient(to top, rgba(5, 12, 24, 0.8), rgba(5, 12, 24, 0.2))
     flex: 1
-    font-size: 0.8rem
-    padding: 2px 4px 2px 4px
+    font-size: 0.85rem
+    font-weight: 500
+    padding: 0.5rem 0.7rem
     white-space: nowrap
     text-overflow: ellipsis
     overflow: hidden
-    color: white
-    text-shadow: 0 0px 2px black
+    color: #f3f7ff
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5)
     text-align: center
-    margin-left: 1.75rem
+    margin-left: 2.2rem
+    letter-spacing: 0.3px
 
   video
     object-fit: cover
@@ -67,10 +91,10 @@ $shadow-size: 2px
 
   .video-stats
     z-index: 1
-    color: white
+    color: #f3f7ff
     font-size: 0.7rem
     font-family: monospace
-    text-shadow: 1px 1px black
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45)
     top: 0
     bottom: 1.35rem
     left: 0
@@ -80,20 +104,142 @@ $shadow-size: 2px
     white-space: pre-wrap
     overflow-x: none
     overflow-y: auto
+    background: rgba(5, 12, 24, 0.7)
+    border-radius: 8px
+    margin: 0.5rem
+
+  // Participant info section with avatar
+  .participant-info
+    position: absolute
+    bottom: 0
+    left: 0
+    right: 0
+    display: flex
+    align-items: center
+    gap: 0.5rem
+    padding: 0.6rem 0.7rem
+    background: linear-gradient(to top, rgba(5, 12, 24, 0.9), rgba(5, 12, 24, 0.3))
+    transition: background 220ms ease-in
+    z-index: 2
+
+  // Avatar circle with initials
+  .participant-avatar
+    width: 32px
+    height: 32px
+    border-radius: 50%
+    background: linear-gradient(135deg, #2563eb 0%, #1a67d0 100%)
+    display: flex
+    align-items: center
+    justify-content: center
+    color: white
+    font-size: 0.75rem
+    font-weight: 600
+    flex-shrink: 0
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3)
+    border: 2px solid rgba(255, 255, 255, 0.15)
+
+  // Status badges
+  .status-badge
+    display: flex
+    align-items: center
+    gap: 0.3rem
+    font-size: 0.7rem
+    color: #d6e7ff
+    padding: 0.25rem 0.5rem
+    background: rgba(37, 99, 235, 0.2)
+    border-radius: 12px
+    white-space: nowrap
+
+    &.muted
+      background: rgba(211, 67, 67, 0.2)
+      color: #ff9999
+
+      &::before
+        content: "🔇"
+        margin-right: 0.2rem
+
+    &.hand-raised
+      background: rgba(255, 193, 7, 0.2)
+      color: #ffd700
+
+      &::before
+        content: "✋"
+        margin-right: 0.2rem
+
+    &.quality-good
+      background: rgba(52, 211, 153, 0.2)
+      color: #86efac
+
+      &::before
+        content: "✓"
+
+    &.quality-fair
+      background: rgba(251, 146, 60, 0.2)
+      color: #fdba74
+
+      &::before
+        content: "⚠"
+
+    &.quality-poor
+      background: rgba(239, 68, 68, 0.2)
+      color: #fca5a5
+
+      &::before
+        content: "✕"
 
 .video-footer
   position: absolute
   left: 0
   bottom: 0
   right: 0
-
   display: flex
-  flex: 1 1 100%
+  align-items: center
+  justify-content: space-between
+  padding: 0.6rem 0.7rem
+  background: linear-gradient(to top, rgba(5, 12, 24, 0.95), rgba(5, 12, 24, 0.35))
+  z-index: 2
+  transition: background 220ms ease-in
+  height: 56px
 
   .vu-meter
-    position: absolute
-    left: 0.5rem
-    bottom: 0.5rem
+    position: relative
+    left: auto
+    bottom: auto
+    margin-right: 0.5rem
+
+  .participant-info
+    position: relative
+    bottom: auto
+    left: auto
+    right: auto
+    display: flex
+    align-items: center
+    gap: 0.6rem
+    padding: 0
+    background: transparent
+    transition: all 220ms ease-in
+    z-index: auto
+    flex: 1
+
+  .participant-avatar
+    width: 36px
+    height: 36px
+    font-size: 0.8rem
+
+  .nickname
+    flex: 1
+    margin-left: 0
+    padding: 0
+    background: transparent
+    text-align: left
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+
+  .status-badge
+    flex-shrink: 0
+    font-size: 0.65rem
+    padding: 0.2rem 0.4rem
 
 .video-container.mirrored video,
 video.mirrored
@@ -110,6 +256,7 @@ video.mirrored
   overflow-x: auto
   overflow-y: hidden
   padding-bottom: 1px
+  padding-top: 0.35rem
 
   .video-container
     flex-grow: 0

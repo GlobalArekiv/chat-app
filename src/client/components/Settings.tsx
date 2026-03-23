@@ -95,6 +95,7 @@ class Settings extends React.PureComponent<SettingsProps> {
 
     return (
       <div className='settings'>
+        <h3 className='panel-title'>Preferences</h3>
         <ul className='settings-list'>
           <li>
             <Checkbox

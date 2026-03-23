@@ -43,21 +43,21 @@ export default class Sidebar extends React.PureComponent<SidebarProps> {
             <SidebarButton
               activePanel={panel}
               className='sidebar-menu-chat'
-              label='Chat'
+              label='Messages'
               onClick={this.props.onShow}
               panel={sidebarPanelChat}
             />
             <SidebarButton
               activePanel={panel}
               className='sidebar-menu-users'
-              label='Users'
+              label='People'
               onClick={this.props.onShow}
               panel={sidebarPanelUsers}
             />
             <SidebarButton
               activePanel={panel}
               className='sidebar-menu-settings'
-              label='Settings'
+              label='Preferences'
               onClick={this.props.onShow}
               panel={sidebarPanelSettings}
             />

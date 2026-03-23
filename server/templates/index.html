@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Peer Calls - Video calls to anybody in the world with a private direct connection</title>
+    <title>VidyaX - Secure Peer-to-Peer Video Calls</title>
   {{template "header" .}}
 </head>
 <body>
@@ -11,13 +11,32 @@
 
   <div id="container">
     <form id="form" method="post" action="{{.BaseURL}}/call" autocomplete="off">
-      <h1>
-        <img src="{{.BaseURL}}/res/peer-calls.svg" width="100%" alt="Peer Calls">
-      </h1>
-      <p>Group peer-to-peer calls for everyone. Create a private room. Share the link.</p>
-      <input id="call" type="text" value="" name="call" placeholder="Room ID" autofocus>
-      <label for="call">(leave room ID empty for random)</label>
-      <input type="submit" value="Start Session">
+      <div class="form-header">
+        <div class="vidyax-logo">VidyaX</div>
+        <p class="form-subtitle">Crystal clear peer-to-peer video calls</p>
+      </div>
+      <div class="form-section">
+        <p class="form-description">Create a private room and share the link with friends. Your conversations are private and peer-to-peer.</p>
+        <div class="form-group">
+          <input id="call" type="text" value="" name="call" placeholder="Enter a room name or leave blank for random..." autofocus>
+          <label for="call" class="form-hint">Custom room names are awesome, but random ones work great too!</label>
+        </div>
+        <button type="submit" class="btn-primary">Start a Call</button>
+      </div>
+      <div class="form-features">
+        <div class="feature">
+          <span class="feature-icon">🔒</span>
+          <span>End-to-end encrypted</span>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">⚡</span>
+          <span>Instant connection</span>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">✨</span>
+          <span>Crystal clear video</span>
+        </div>
+      </div>
     </form>
   </div>
 

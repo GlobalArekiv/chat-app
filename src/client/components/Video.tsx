@@ -137,7 +137,16 @@ extends React.PureComponent<VideoProps, VideoState> {
         )}
         <div className='video-footer'>
           <VUMeter streamId={streamId} />
-          <span className='nickname'>{this.props.nickname}</span>
+          <div className='participant-info'>
+            <div className='participant-avatar'>
+              {this.props.nickname.charAt(0).toUpperCase()}
+            </div>
+            <span className='nickname'>{this.props.nickname}</span>
+            {this.props.muted && (
+              <span className='status-badge muted'>Muted</span>
+            )}
+            <span className='status-badge quality-good'>HD</span>
+          </div>
           <Dropdown fixed label={<MdMenu />}>
             <li className='action-maximize' onClick={this.handleMaximize}>
               <MdZoomIn />&nbsp;

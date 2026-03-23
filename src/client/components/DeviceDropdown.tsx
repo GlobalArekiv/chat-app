@@ -318,6 +318,7 @@ export interface QualityOptionProps {
   constraint: SizeConstraint
   selected: boolean
   onClick: (constraint: SizeConstraint) => void
+  children?: React.ReactNode
 }
 
 export class QualityOption extends React.PureComponent<QualityOptionProps> {
