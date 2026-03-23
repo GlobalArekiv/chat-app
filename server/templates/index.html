@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>VidyaX - Secure Peer-to-Peer Video Calls</title>
-  {{template "header" .}}
+    <meta name="description" content="Crystal clear, end-to-end encrypted peer-to-peer video calls. No sign-up required.">
+    {{template "header" .}}
 </head>
 <body>
-  <a id="github-ribbon" href="https://github.com/jeremija/peer-calls" target="_blank">
-    <img src="{{.BaseURL}}/res/fork.png" alt="Fork me on GitHub">
+  <a id="github-ribbon" href="https://github.com/jeremija/peer-calls" target="_blank" aria-label="Fork on GitHub">
+    <img src="{{.BaseURL}}/res/fork.png" alt="Fork me on GitHub" width="40" height="40">
   </a>
 
   <div id="container">
@@ -16,12 +17,12 @@
         <p class="form-subtitle">Crystal clear peer-to-peer video calls</p>
       </div>
       <div class="form-section">
-        <p class="form-description">Create a private room and share the link with friends. Your conversations are private and peer-to-peer.</p>
+        <p class="form-description">Create a private room and share the link. Your conversation is private — no servers in the middle.</p>
         <div class="form-group">
-          <input id="call" type="text" value="" name="call" placeholder="Enter a room name or leave blank for random..." autofocus>
-          <label for="call" class="form-hint">Custom room names are awesome, but random ones work great too!</label>
+          <input id="call" type="text" value="" name="call" placeholder="Enter a room name, or leave blank for random…" autofocus>
+          <label for="call" class="form-hint">Custom names are great, but random ones work too.</label>
         </div>
-        <button type="submit" class="btn-primary">Start a Call</button>
+        <button type="submit" class="btn-primary">Start a Call →</button>
       </div>
       <div class="form-features">
         <div class="feature">
@@ -33,8 +34,12 @@
           <span>Instant connection</span>
         </div>
         <div class="feature">
-          <span class="feature-icon">✨</span>
+          <span class="feature-icon">🎥</span>
           <span>Crystal clear video</span>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">🌐</span>
+          <span>No sign-up needed</span>
         </div>
       </div>
     </form>

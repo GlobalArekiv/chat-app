@@ -1,33 +1,35 @@
 .vu-meter
-  height: 12px
-  width: 12px
-  // background-color: #bbb
+  height: 11px
+  width: 11px
   border-radius: 50%
   display: inline-block
+  flex-shrink: 0
 
   transition-property: background-color, box-shadow, opacity
-  transition-duration: 200ms
-  transition-timing-function: linear
-
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5)
+  transition-duration: 180ms
+  transition-timing-function: ease-out
 
   &.vu-meter-level-0
     background-color: $color-info
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.0)
+    box-shadow: none
     opacity: 0
   &.vu-meter-level-1
     background-color: $color-info
-    opacity: 0.4
+    opacity: 0.45
+    box-shadow: 0 0 4px rgba(52, 211, 153, 0.3)
   &.vu-meter-level-2
     background-color: $color-info
-    opacity: 0.6
+    opacity: 0.7
+    box-shadow: 0 0 6px rgba(52, 211, 153, 0.45)
   &.vu-meter-level-3
-    background-color: $color-warning
-    opacity: 0.8
+    background-color: #fbbf24
+    opacity: 0.85
+    box-shadow: 0 0 8px rgba(251, 191, 36, 0.45)
   &.vu-meter-level-4
-    background-color: $color-warning
-    opacity: 1.0
+    background-color: #fbbf24
+    opacity: 1
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.55)
   &.vu-meter-level-5
-    opacity: 1.0
+    opacity: 1
     background-color: $color-error
-
+    box-shadow: 0 0 12px rgba(248, 113, 113, 0.6)

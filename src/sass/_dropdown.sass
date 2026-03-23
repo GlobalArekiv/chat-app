@@ -2,11 +2,16 @@
   position: relative
 
   button
-    font-size: 1rem
+    font-size: 0.95rem
     background: none
     border: none
-    color: #e8f0ff
+    color: rgba(#c8dcff, 0.75)
     cursor: pointer
+    transition: color 150ms ease
+    font-family: inherit
+
+    &:hover
+      color: #c8dcff
 
 .dropdown-backdrop
   position: fixed
@@ -22,15 +27,20 @@
   position: absolute
   right: 0
   list-style-type: none
-  padding: 0
+  padding: 6px
   margin: 0
-  box-shadow: 0 12px 26px rgba(8, 18, 36, 0.35)
+  background: rgba(5, 12, 30, 0.96)
+  border: 1px solid rgba(79, 140, 255, 0.18)
+  border-radius: 14px
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.04) inset
+  backdrop-filter: blur(20px) saturate(1.4)
+  -webkit-backdrop-filter: blur(20px) saturate(1.4)
   user-select: none
   z-index: $z-index-dropdown
-  transform: translateY(-10px) scale(0.95)
-  transition: opacity 220ms ease-in, visibility 220ms ease-in, transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1)
-  transform: translateY(-4px)
+  transform: translateY(-8px) scale(0.96)
+  transition: opacity 200ms ease-in, visibility 0ms ease-in 200ms, transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1)
   bottom: 100%
+  min-width: 160px
 
   &.dropdown-list-fixed
     position: fixed
@@ -38,34 +48,29 @@
     right: auto
 
   li
-    display: block
-    background-color: rgba(15, 23, 42, 0.95)
-    color: #d6e7ff
-    padding: 0.6rem 0.8rem
-    cursor: pointer
-    white-space: nowrap
-    transition: all 120ms ease-in
-    font-size: 0.85rem
-
-    max-width: 250px
-    overflow: hidden
-    text-overflow: ellipsis
     display: flex
     align-items: center
     gap: 0.5rem
+    color: rgba(#c8dcff, 0.85)
+    padding: 0.55rem 0.8rem
+    cursor: pointer
+    white-space: nowrap
+    transition: all 150ms ease
+    font-size: 0.84rem
+    font-weight: 400
+    border-radius: 8px
+
+    max-width: 260px
+    overflow: hidden
+    text-overflow: ellipsis
 
     &:hover
-      background-color: rgba(37, 99, 235, 0.5)
-      transform: translateX(2px)
-
-    &:first-child
-      border-radius: 8px 8px 0 0
-
-    &:last-child
-      border-radius: 0 0 8px 8px
+      background: rgba(79, 140, 255, 0.16)
+      color: #daeaff
+      transform: none
 
     & + li
-      border-top: 1px solid rgba(37, 99, 235, 0.2)
+      border-top: 1px solid rgba(79, 140, 255, 0.08)
 
     ul.horizontal
       padding: 0
@@ -77,11 +82,11 @@
         text-align: center
         flex-grow: 1
         border: none
-        border-right: 1px solid #e6e6e6
+        border-right: 1px solid rgba(79, 140, 255, 0.12)
 
         &.selected
           color: white
-          background-color: $color-blue
+          background: rgba($color-blue, 0.3)
 
         &:first-child
           border-radius: 5px 0 0 0
@@ -94,11 +99,12 @@
     visibility: visible
     opacity: 1
     transform: translateY(0) scale(1)
+    transition: opacity 200ms ease-in, visibility 0ms ease-in 0ms, transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1)
 
 .dropdown-list.dropdown-center
   right: inherit
   left: 50%
-  transform: translateX(-50%)
-  
+  transform: translateX(-50%) translateY(-8px) scale(0.96)
+
   &.dropdown-list-open
     transform: translateX(-50%) translateY(0) scale(1)

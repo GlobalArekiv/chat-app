@@ -6,13 +6,14 @@
   -ms-transform: translateX(100%)
   -webkit-transform: translateX(100%)
   transform: translateX(100%)
-  transition: transform 0.4s cubic-bezier(0.55, 0, 0, 1), box-shadow 0.4s cubic-bezier(0.55, 0, 0, 1)
+  transition: transform 0.38s cubic-bezier(0.55, 0, 0, 1), box-shadow 0.38s cubic-bezier(0.55, 0, 0, 1)
   width: 320px
   margin: 0 auto
   z-index: $z-index-sidebar
-  background: rgba(7, 19, 37, 0.93)
-  backdrop-filter: blur(10px)
-  border-left: 1px solid rgba(134, 168, 225, 0.2)
+  background: rgba(5, 11, 28, 0.92)
+  backdrop-filter: blur(24px) saturate(1.5)
+  -webkit-backdrop-filter: blur(24px) saturate(1.5)
+  border-left: 1px solid rgba(79, 140, 255, 0.14)
 
   display: flex
   flex-direction: column
@@ -21,42 +22,58 @@
     -ms-transform: none
     -webkit-transform: none
     transform: none
-    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.4)
+    box-shadow: -24px 0 80px rgba(0, 0, 0, 0.6), -1px 0 0 rgba(79, 140, 255, 0.08)
 
   @media (max-width: 375.98px)
     &.show
       width: 100% !important
 
 .sidebar-header
-  background: rgba(9, 26, 51, 0.95)
-  color: #f3f7ff
-  height: 52px
-  line-height: 52px
+  background: rgba(5, 11, 28, 0.98)
+  color: #c8dcff
+  height: 54px
+  line-height: 54px
   flex-grow: 0
-  border-bottom: 1px solid rgba(134, 168, 225, 0.2)
+  border-bottom: 1px solid rgba(79, 140, 255, 0.12)
+  position: relative
+
+  // Subtle top gradient line
+  &::after
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    height: 1px
+    background: linear-gradient(90deg, transparent, rgba(79, 140, 255, 0.35), rgba(139, 92, 246, 0.25), transparent)
 
   .sidebar-close
-    font-size: 24px
+    font-size: 20px
     height: 100%
-    line-height: 35px
-    padding: 12px
+    line-height: 34px
+    padding: 10px 14px
     text-align: center
     float: left
-    width: 64px
+    width: 54px
     cursor: pointer
+    color: rgba(#c8dcff, 0.5)
+    transition: color 150ms ease
+
+    &:hover
+      color: #c8dcff
 
     .sidebar-button
       float: right
       a
-        font-size: 24px
-        color: #dce9ff
+        font-size: 20px
+        color: rgba(#c8dcff, 0.5)
 
   .sidebar-menu
-    font-size: 18px
-    font-weight: 500
-    color: #89a1c6
-    text-overflow: ellipsis
+    font-size: 0.8rem
+    font-weight: 600
+    color: rgba(#8aa8d8, 0.7)
     text-transform: uppercase
+    letter-spacing: 0.06em
 
     padding: 0
     margin: 0
@@ -72,6 +89,7 @@
       white-space: nowrap
       flex-grow: 1
       text-align: center
+      transition: color 150ms ease
 
       svg
         line-height: 1rem
@@ -83,30 +101,34 @@
         right: 50%
         bottom: 0
         height: 2px
-        background-color: transparent
-        transition: left 100ms ease-in, right 100ms ease-out
+        background: linear-gradient(90deg, #4f8cff, #6366f1)
+        border-radius: 999px
+        transition: left 160ms cubic-bezier(0.4, 0, 0.2, 1), right 160ms cubic-bezier(0.4, 0, 0.2, 1)
+        opacity: 0
 
       &.active
-        color: #f4f8ff
+        color: #d4e6ff
 
         &::after
-          background-color: #4f8cff
-          left: 0
-          right: 0
+          opacity: 1
+          left: 8px
+          right: 8px
 
     li + li
-      padding-left: 0.5rem
+      padding-left: 0.25rem
 
 .sidebar-content
   display: flex
   flex-grow: 1
   flex-shrink: 1
+  overflow: hidden
 
 .panel-title
   margin: 0
-  padding: 0.9rem 1rem
-  font-size: 0.82rem
-  letter-spacing: 0.08em
+  padding: 0.8rem 1rem
+  font-size: 0.7rem
+  font-weight: 700
+  letter-spacing: 0.1em
   text-transform: uppercase
-  color: #8ea9cd
-  border-bottom: 1px solid rgba(134, 168, 225, 0.2)
+  color: rgba(#8aa8d8, 0.6)
+  border-bottom: 1px solid rgba(79, 140, 255, 0.1)
