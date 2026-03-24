@@ -107,13 +107,23 @@ export class Videos extends React.PureComponent<VideosProps, VideosState> {
       return
     }
 
-    const videos = this.gridRef.current!
-    .querySelectorAll('.video-container') as unknown as HTMLElement[]
+    const grid = this.gridRef.current!
+    const videos = grid.querySelectorAll('.video-container') as unknown as HTMLElement[]
     const size = videos.length
-    const x = (1 / Math.ceil(Math.sqrt(size))) * 100
+    
+    if (size === 0) return
 
+    // Auto-calculate optimal columns and rows for an even grid layout
+    const cols = Math.ceil(Math.sqrt(size))
+    const rows = Math.ceil(size / cols)
+
+    grid.style.display = 'grid'
+    grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`
+    grid.style.gridTemplateRows = `repeat(${rows}, 1fr)`
+
+    // Clear legacy flexBasis in case any videos retain it
     videos.forEach(v => {
-      v.style.flexBasis = x + '%'
+      v.style.flexBasis = ''
     })
   }
   maybeUpdateSizeStyle() {

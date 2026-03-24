@@ -128,6 +128,13 @@ npm run build:go       # uses Makefile target: build
 npm run build:go:linux # cross-build Linux amd64 binary
 ```
 
+### Backend only (Go server)
+
+```bash
+go run main.go                             # run backend in Mesh mode
+PEERCALLS_NETWORK_TYPE=sfu go run main.go  # run backend in SFU mode
+```
+
 ### Tests and checks
 
 ```bash

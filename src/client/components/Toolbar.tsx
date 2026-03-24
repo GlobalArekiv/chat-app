@@ -250,6 +250,7 @@ export default class Toolbar extends React.PureComponent<
               className='hangup'
               icon={MdCallEnd}
               title='Hang Up'
+              label='End Call'
             />
 
             <AudioDropdown />

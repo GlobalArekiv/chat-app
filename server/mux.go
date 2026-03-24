@@ -79,6 +79,7 @@ func NewMux(
 	prom PrometheusConfig,
 	embed Embed,
 ) *Mux {
+	baseURL = strings.TrimSuffix(baseURL, "/")
 	log = log.WithNamespaceAppended("mux")
 
 	templates := ParseTemplates(embed.Templates)

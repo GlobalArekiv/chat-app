@@ -21,7 +21,7 @@ export interface MediaDevice {
 
 const getUserMediaFail = (
   constraints: MediaStreamConstraints,
-  resolve: () => void,
+  resolve: (stream: MediaStream) => void,
   reject: (err: Error) => void,
 ) => {
   reject(new Error(
@@ -71,12 +71,16 @@ export const enumerateDevices = makeAction(
   },
 )
 
+type GetUserMediaFn = (constraints: MediaStreamConstraints, successCallback: (stream: MediaStream) => void, errorCallback: (error: Error) => void) => void;
+
 declare global {
   interface Navigator {
-    webkitGetUserMedia?: typeof navigator.getUserMedia
-    mozGetUserMedia?: typeof navigator.getUserMedia
+    getUserMedia?: GetUserMediaFn;
+    webkitGetUserMedia?: GetUserMediaFn;
+    mozGetUserMedia?: GetUserMediaFn;
   }
 }
+
 
 async function getUserMedia(
   constraints: MediaStreamConstraints,
@@ -85,7 +89,7 @@ async function getUserMedia(
     return navigator.mediaDevices.getUserMedia(constraints)
   }
 
-  const _getUserMedia: typeof navigator.getUserMedia =
+  const _getUserMedia: GetUserMediaFn =
     navigator.getUserMedia ||
     navigator.webkitGetUserMedia ||
     navigator.mozGetUserMedia ||
@@ -187,7 +191,12 @@ export const play = makeAction('MEDIA_PLAY', async () => {
   const promises = Array
   .from(document.querySelectorAll('video'))
   .filter(video => video.paused)
-  .map(video => video.play())
+  .map(video => video.play().catch(err => {
+    if (err && err.name === 'AbortError') {
+      return
+    }
+    console.error('Video play error:', err)
+  }))
   await Promise.all(promises)
 })
 

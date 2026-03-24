@@ -5,16 +5,18 @@ $shadow-size: 2px
   white-space: nowrap
 
 .videos-grid-flex
-  display: flex
-  flex-wrap: wrap
+  display: grid
   flex: 1 1 100%
-
-  @media (orientation: portrait)
-    flex-direction: column
+  width: 100%
+  height: 100%
+  gap: 0.3rem
+  padding: 0.3rem
+  box-sizing: border-box
 
   .video-container
-    flex: 1 1 100%
-    flex-grow: 1
+    margin: 0
+    width: 100%
+    height: 100%
 
 .videos-grid-aspect-ratio
   display: flex
@@ -38,28 +40,24 @@ $shadow-size: 2px
   height: 100%
 
 .video-container
-  background: linear-gradient(145deg, rgba(6, 14, 34, 0.75) 0%, rgba(10, 22, 52, 0.65) 100%)
-  border: 1px solid rgba(79, 140, 255, 0.16)
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.04)
-  border-radius: 20px
+  background: #1a1a20
+  border: 1px solid rgba(255, 255, 255, 0.08)
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5)
+  border-radius: 24px
   overflow: hidden
   position: relative
   display: flex
-  margin: 0.3rem
   transition: all 250ms cubic-bezier(0.34, 1.56, 0.64, 1)
 
   &:hover
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.07)
-    border-color: rgba(79, 140, 255, 0.3)
-    transform: translateY(-3px) scale(1.005)
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.07)
+    border-color: rgba(255, 255, 255, 0.15)
+    transform: translateY(-2px) scale(1.005)
 
-    .video-footer
-      background: linear-gradient(to top, rgba(3, 8, 20, 0.98) 0%, rgba(3, 8, 20, 0.65) 60%, transparent 100%)
-
-  // Active speaker with animated glow
+  // Active speaker with modern green glow like reference
   &.active-speaker
-    border-color: rgba(79, 140, 255, 0.55)
-    box-shadow: 0 0 0 2px rgba(79, 140, 255, 0.4), 0 16px 48px rgba(79, 140, 255, 0.25), 0 8px 28px rgba(0, 0, 0, 0.5)
+    border-color: rgba(52, 211, 153, 0.8)
+    box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.5), 0 16px 48px rgba(52, 211, 153, 0.15), 0 8px 28px rgba(0, 0, 0, 0.5)
     animation: active-speaker-glow 2s ease-in-out infinite
 
     .participant-info
@@ -208,13 +206,12 @@ $shadow-size: 2px
   bottom: 0
   right: 0
   display: flex
-  align-items: center
+  align-items: flex-end
   justify-content: space-between
-  padding: 0.55rem 0.7rem
-  background: linear-gradient(to top, rgba(3, 8, 20, 0.95) 0%, rgba(3, 8, 20, 0.5) 70%, transparent 100%)
+  padding: 1rem
   z-index: 2
-  transition: background 220ms ease-in
-  height: 52px
+  height: auto
+  background: transparent !important
 
   .vu-meter
     position: relative
@@ -223,29 +220,36 @@ $shadow-size: 2px
     margin-right: 0.5rem
 
   .participant-info
-    position: relative
-    bottom: auto
-    left: auto
-    right: auto
     display: flex
     align-items: center
-    gap: 0.55rem
-    padding: 0
-    background: transparent
+    gap: 0.6rem
+    padding: 0.4rem 0.8rem
+    background: rgba(30, 30, 35, 0.55)
+    backdrop-filter: blur(16px) saturate(1.2)
+    border: 1px solid rgba(255, 255, 255, 0.1)
+    border-radius: 999px
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2)
+    position: relative
     transition: all 220ms ease-in
     z-index: auto
-    flex: 1
+    flex: 0 1 auto
+    max-width: calc(100% - 3rem)
 
   .participant-avatar
-    width: 32px
-    height: 32px
-    font-size: 0.75rem
+    width: 24px
+    height: 24px
+    font-size: 0.65rem
+    display: none
 
   .nickname
-    flex: 1
-    margin-left: 0
+    margin: 0
     padding: 0
     background: transparent
+    color: #f1f5f9
+    font-weight: 500
+    font-size: 0.85rem
+    letter-spacing: 0.02em
+    text-shadow: none
     text-align: left
     overflow: hidden
     text-overflow: ellipsis
@@ -254,6 +258,34 @@ $shadow-size: 2px
   .status-badge
     flex-shrink: 0
     font-size: 0.62rem
+    background: rgba(255,255,255,0.1)
+    color: white
+    border-color: rgba(255,255,255,0.1)
+    
+    &.muted
+      background: rgba(239, 68, 68, 0.2)
+      border-color: rgba(239, 68, 68, 0.3)
+      color: #fca5a5
+
+  .dropdown button
+    display: flex
+    align-items: center
+    justify-content: center
+    width: 36px
+    height: 36px
+    background: rgba(30, 30, 35, 0.55)
+    backdrop-filter: blur(16px) saturate(1.2)
+    border: 1px solid rgba(255, 255, 255, 0.1)
+    border-radius: 50%
+    color: white
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2)
+    transition: all 200ms ease
+    font-size: 1.2rem
+    padding: 0
+
+    &:hover
+      background: rgba(255, 255, 255, 0.2)
+      transform: scale(1.1)
 
 .video-container.mirrored video,
 video.mirrored
