@@ -50,9 +50,7 @@ echo.
 echo Press Ctrl+C to stop
 echo.
 
-set PEERCALLS_FS=.
-set PEERCALLS_NETWORK_TYPE=sfu
-set PEERCALLS_ICE_SERVER_URLS=stun:stun.l.google.com:19302,stun:global.stun.twilio.com:3478
-go run main.go
+set PEERCALLS_CONFIG=config.yml
+go run main.go --config config.yml
 
 pause
