@@ -1,0 +1,371 @@
+@import '_variables'
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap')
+
+*,
+*:before,
+*:after
+  box-sizing: border-box
+
+html, body
+  width: 100vw
+  height: 100%
+
+body
+  background: radial-gradient(ellipse at 20% 0%, #0d1f4a 0%, #050d1f 55%), radial-gradient(ellipse at 80% 100%, #0c1a3e 0%, #050d1f 60%)
+  color: $color-fg
+  margin: 0
+  font-family: $font-sans-serif
+  min-height: 100%
+  padding-bottom: 3rem
+  position: relative
+  overflow-x: hidden
+
+  &::before
+    content: ''
+    position: fixed
+    inset: 0
+    pointer-events: none
+    background-image: radial-gradient(ellipse at 15% 30%, rgba(79, 140, 255, 0.13), transparent 55%), radial-gradient(ellipse at 85% 70%, rgba(139, 92, 246, 0.10), transparent 55%), radial-gradient(ellipse at 50% 100%, rgba(99, 102, 241, 0.08), transparent 50%)
+    z-index: -1
+
+  // Subtle animated grain texture
+  &::after
+    content: ''
+    position: fixed
+    inset: 0
+    pointer-events: none
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E")
+    background-size: 180px
+    opacity: 0.4
+    z-index: -1
+
+footer
+  position: absolute
+  padding: 1rem 0
+  bottom: 0
+  left: 0
+  right: 0
+  text-align: center
+  color: rgba($color-fg, 0.35)
+  font-size: 0.75rem
+  font-family: $font-monospace
+  letter-spacing: 0.06em
+
+body.call
+  background: linear-gradient(135deg, #222228 0%, #121216 100%)
+  padding: 0
+  display: flex
+
+  &::before
+    background-image: none
+
+#github-ribbon
+  position: absolute
+  top: 1.25rem
+  right: 1.25rem
+  border: 0
+  z-index: 11
+
+  img
+    border-radius: 10px
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35)
+    transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 200ms ease
+    width: 40px
+    height: 40px
+
+    &:hover
+      transform: scale(1.08)
+      box-shadow: 0 12px 32px rgba(79, 140, 255, 0.25)
+
+@mixin button-style($color-fg, $color-bg)
+  background: $color-bg
+  border: none
+  border-bottom: 2px solid darken($color-bg, 10%)
+  border-radius: 8px
+  box-sizing: border-box
+  color: $color-fg
+  text-shadow: 0 0 0.35rem rgba(0, 0, 0, 0.6)
+
+@mixin button($color-fg, $color-bg)
+  @include button-style($color-fg, $color-bg)
+  cursor: pointer
+
+  &:hover
+    outline: none
+    @include button-style($color-fg, darken($color-bg, 5%))
+
+  &:focus
+    outline: none
+    box-shadow: 0 0 1rem rgba($color-blue, 0.3)
+
+  &:active:not(disabled)
+    outline: none
+    transform: translate(0px, 1px)
+    @include button-style($color-fg, darken($color-bg, 10%))
+
+  &:disabled
+    pointer-events: none
+    @include button-style(darken($color-fg, 13%), darken($color-bg, 13%))
+
+// ─── Landing Page Form ────────────────────────────────────────────────────────
+
+#form
+  text-align: center
+  width: min(520px, calc(100% - 2rem))
+  margin: 0 auto
+  background: rgba(8, 18, 42, 0.72)
+  border: 1px solid rgba(79, 140, 255, 0.16)
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 32px 80px rgba(0, 0, 0, 0.6), 0 0 80px rgba(79, 140, 255, 0.08)
+  border-radius: 28px
+  padding: 3rem 2.25rem 2.25rem
+  backdrop-filter: blur(28px) saturate(1.4)
+  -webkit-backdrop-filter: blur(28px) saturate(1.4)
+  animation: slideUp 0.55s cubic-bezier(0.34, 1.56, 0.64, 1)
+  position: relative
+  overflow: hidden
+
+  // Decorative top gradient line
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: 10%
+    right: 10%
+    height: 1px
+    background: linear-gradient(90deg, transparent, rgba(79, 140, 255, 0.6), rgba(139, 92, 246, 0.5), transparent)
+    border-radius: 999px
+
+  .form-header
+    margin-bottom: 2rem
+
+    .vidyax-logo
+      font-size: 3rem
+      font-weight: 700
+      background: linear-gradient(135deg, #a8c3ff 0%, #4f8cff 40%, #818cf8 100%)
+      -webkit-background-clip: text
+      -webkit-text-fill-color: transparent
+      background-clip: text
+      margin-bottom: 0.4rem
+      letter-spacing: -1.5px
+      line-height: 1
+      filter: drop-shadow(0 0 24px rgba(79, 140, 255, 0.45))
+
+    h1
+      margin: 0
+      line-height: 0
+      display: none
+
+    .form-subtitle
+      margin: 0
+      color: rgba($color-fg, 0.55)
+      font-size: 0.92rem
+      font-weight: 400
+      letter-spacing: 0.01em
+
+  .form-section
+    margin-bottom: 1.75rem
+
+  .form-description
+    margin: 0 0 1.75rem
+    color: rgba($color-fg, 0.58)
+    line-height: 1.65
+    font-size: 0.92rem
+
+  .form-group
+    margin-bottom: 1.5rem
+
+  input[type="text"]
+    font-size: 0.98rem
+    padding: 0.95rem 1.1rem
+    width: 100%
+    background: rgba(4, 12, 30, 0.7)
+    border: 1px solid rgba(79, 140, 255, 0.2)
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.04)
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1)
+    text-align: left
+    color: #e0ecff
+    border-radius: 14px
+    font-family: inherit
+
+    &:focus
+      border-color: rgba(79, 140, 255, 0.7)
+      box-shadow: 0 0 0 3px rgba(79, 140, 255, 0.15), 0 2px 12px rgba(0, 0, 0, 0.3)
+      outline: none
+      background: rgba(6, 16, 38, 0.85)
+
+    &:hover:not(:focus)
+      border-color: rgba(79, 140, 255, 0.35)
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35)
+
+  .form-hint
+    font-size: 0.78rem
+    display: block
+    margin-top: 0.6rem
+    color: rgba($color-fg, 0.4)
+    font-weight: 400
+
+  .btn-primary
+    -webkit-appearance: none
+    -moz-appearance: none
+    appearance: none
+    font-family: inherit
+    font-size: 0.95rem
+    font-weight: 600
+    letter-spacing: 0.03em
+    background: linear-gradient(135deg, #4f8cff 0%, #3b6ee8 50%, #6366f1 100%)
+    color: white
+    border: none
+    border-radius: 14px
+    padding: 1rem 2rem
+    width: 100%
+    cursor: pointer
+    box-shadow: 0 8px 28px rgba(79, 140, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2)
+    transition: all 200ms cubic-bezier(0.34, 1.56, 0.64, 1)
+    position: relative
+    overflow: hidden
+
+    // Shine sweep overlay
+    &::before
+      content: ''
+      position: absolute
+      top: 0
+      left: -100%
+      width: 60%
+      height: 100%
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent)
+      transition: left 400ms ease
+
+    &:hover
+      transform: translateY(-2px)
+      box-shadow: 0 14px 40px rgba(79, 140, 255, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25)
+      background: linear-gradient(135deg, #5d96ff 0%, #4578f0 50%, #7072f5 100%)
+
+      &::before
+        left: 150%
+
+    &:active
+      transform: translateY(0)
+      box-shadow: 0 6px 18px rgba(79, 140, 255, 0.28)
+
+    &:focus
+      outline: 2px solid rgba(79, 140, 255, 0.5)
+      outline-offset: 3px
+
+  .form-features
+    display: flex
+    justify-content: space-around
+    gap: 0.75rem
+    padding-top: 1.5rem
+    border-top: 1px solid rgba(79, 140, 255, 0.12)
+    flex-wrap: wrap
+
+    .feature
+      display: flex
+      flex-direction: column
+      align-items: center
+      gap: 0.5rem
+      font-size: 0.78rem
+      color: rgba($color-fg, 0.5)
+      flex: 1 1 90px
+      padding: 0.6rem 0.4rem
+      border-radius: 12px
+      transition: background 200ms ease
+
+      &:hover
+        background: rgba(79, 140, 255, 0.07)
+        color: rgba($color-fg, 0.75)
+
+      .feature-icon
+        font-size: 1.5rem
+        line-height: 1
+
+  ::-webkit-input-placeholder
+    color: rgba($color-fg, 0.3)
+
+  :-moz-placeholder
+    color: rgba($color-fg, 0.3)
+
+  ::-moz-placeholder
+    color: rgba($color-fg, 0.3)
+
+  :-ms-input-placeholder
+    color: rgba($color-fg, 0.3)
+
+@keyframes slideUp
+  from
+    opacity: 0
+    transform: translateY(24px) scale(0.98)
+  to
+    opacity: 1
+    transform: translateY(0) scale(1)
+
+.warning
+  color: $color-warning
+
+.error
+  color: $color-error
+
+.info
+  color: $color-info
+
+#container
+  display: flex
+  flex: 1 1 100%
+  justify-content: center
+  align-items: center
+  padding: 1rem
+
+  // The following is important for .videos-grid-aspect-ratio
+  width: 100%
+  height: 100%
+
+.app
+  display: flex
+  flex-direction: column
+  flex: 1 1 100%
+
+  // The following is important for .videos-grid-aspect-ratio
+  width: 100%
+  height: 100%
+
+  @import '_alert'
+  @import '_notification'
+  @import '_video'
+  @import '_sidebar'
+  @import '_chat'
+  @import '_users'
+  @import '_media'
+  @import '_message'
+  @import '_toolbar'
+  @import '_vu_meter'
+
+@import '_dropdown'
+
+.fade-enter
+  opacity: 0.01
+
+.fade-enter.fade-enter-active
+  opacity: 1
+  transition: opacity 220ms ease-in
+
+.fade-exit
+  opacity: 1
+
+.fade-exit.fade-exit-active
+  opacity: 0.01
+  transition: opacity 120ms ease-in
+
+.app .sidebar-visible
+  right: 320px
+
+  @media (max-width: 375.98px)
+    right: 100%
+
+noscript
+  position: absolute
+  left: 50%
+  top: 1rem
+  transform: translateX(-50%)
+  color: $color-error
+  font-weight: 500
+  font-size: 1.6rem

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>VidyaX - Secure Peer-to-Peer Video Calls</title>
+    <meta name="description" content="Crystal clear, end-to-end encrypted peer-to-peer video calls. No sign-up required.">
+    {{template "header" .}}
+</head>
+<body>
+  <div id="container">
+    <form id="form" method="post" action="{{.BaseURL}}/call" autocomplete="off">
+      <div class="form-header">
+        <div class="vidyax-logo">VidyaX</div>
+        <p class="form-subtitle">Crystal clear peer-to-peer video calls</p>
+      </div>
+      <div class="form-section">
+        <p class="form-description">Create a private room and share the link. Your conversation is private — no servers in the middle.</p>
+        <div class="form-group">
+          <input id="call" type="text" value="" name="call" placeholder="Enter a room name, or leave blank for random…" autofocus>
+          <label for="call" class="form-hint">Custom names are great, but random ones work too.</label>
+        </div>
+        <button type="submit" class="btn-primary">Start a Call →</button>
+      </div>
+      <div class="form-features">
+        <div class="feature">
+          <span class="feature-icon">🔒</span>
+          <span>End-to-end encrypted</span>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">⚡</span>
+          <span>Instant connection</span>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">🎥</span>
+          <span>Crystal clear video</span>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">🌐</span>
+          <span>No sign-up needed</span>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <footer>
+    <div>{{.Version}}</div>
+  </footer>
+</body>

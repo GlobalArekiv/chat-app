@@ -1,0 +1,256 @@
+.toolbar
+  visibility: visible
+  opacity: 1
+  transition: opacity 250ms ease-in 0ms, visibility 0ms ease-in 0ms
+
+  &.toolbar-hidden
+    opacity: 0
+    visibility: hidden
+    transition: opacity 250ms ease-in 0ms, visibility 0ms ease-in 250ms
+
+  .encryption-wrapper
+    position: relative
+
+  .encryption-dialog
+    background: rgba(6, 14, 34, 0.92)
+    border: 1px solid rgba(79, 140, 255, 0.22)
+    padding: 0.6rem
+    border-radius: 14px
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.04) inset
+    backdrop-filter: blur(16px)
+    -webkit-backdrop-filter: blur(16px)
+    opacity: 0
+    visibility: hidden
+    transition: opacity 220ms ease-in 0ms, visibility 0ms ease-in 220ms
+    position: absolute
+
+    &.encryption-dialog-visible
+      visibility: visible
+      opacity: 1
+      transition: opacity 220ms ease-in 0ms, visibility 0ms ease-in 0ms
+
+    .encryption-form
+      white-space: nowrap
+
+    left: 100%
+    top: 2px
+
+    input, button
+      padding: 10px 12px
+      border-radius: 10px
+      font-family: inherit
+
+    input
+      min-width: 200px
+      border: 1px solid rgba(79, 140, 255, 0.25)
+      color: #e0ecff
+      background-color: rgba(4, 12, 30, 0.8)
+      transition: border-color 150ms ease-in
+
+      &:focus
+        outline: none
+        border-color: rgba(79, 140, 255, 0.6)
+        box-shadow: 0 0 0 2px rgba(79, 140, 255, 0.12)
+
+    input[type=password]
+      margin-right: 0.5rem
+
+    input[type=submit], button
+      @include button($color-primary, $color-warning)
+
+    .note
+      color: rgba($color-fg, 0.55)
+      font-size: 0.78rem
+
+      p:last-child
+        margin-bottom: 0
+
+  position: absolute
+  display: flex
+  flex-direction: column
+  gap: 0.8rem
+  padding: 1rem
+  z-index: $z-index-toolbar
+
+  &.toolbar-call
+    bottom: 1.5rem
+    left: 50%
+    transform: translateX(-50%)
+    flex-direction: row
+    background: rgba(35, 35, 45, 0.65)
+    backdrop-filter: blur(24px) saturate(1.8)
+    -webkit-backdrop-filter: blur(24px) saturate(1.8)
+    border: 1px solid rgba(255, 255, 255, 0.12)
+    border-radius: 999px
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35)
+    align-items: center
+    padding: 0.6rem 1.2rem
+    gap: 0.75rem
+
+  .icon
+    position: relative
+    font-size: 22px
+    color: #f1f5f9
+    width: 48px
+    height: 48px
+    border-radius: 50%
+    background-color: rgba(255, 255, 255, 0.1)
+    transition: all 200ms cubic-bezier(0.34, 1.56, 0.64, 1)
+    padding: 12px
+    display: flex
+    align-items: center
+    justify-content: center
+
+    .badge
+      font-family: $font-sans-serif
+      font-weight: 700
+      color: white
+      position: absolute
+      font-size: 10px
+      left: 0
+      right: 0
+      text-align: center
+      bottom: 2px
+      background: #ef4444
+      border-radius: 999px
+      line-height: 1.4
+      padding: 1px 4px
+      min-width: 16px
+      margin: 0 auto
+      width: fit-content
+
+  .tooltip
+    margin-left: 0.5rem
+    opacity: 0
+    visibility: hidden
+    color: #f8fafc
+    background: rgba(15, 15, 20, 0.95)
+    border: 1px solid rgba(255, 255, 255, 0.1)
+    border-radius: 8px
+    padding: 0.4rem 0.8rem
+    font-size: 0.75rem
+    font-weight: 500
+    text-shadow: none
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4)
+    transition: opacity 180ms ease, transform 180ms cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0ms ease 180ms
+    transform: translateY(4px)
+    pointer-events: none
+    position: absolute
+    left: 50%
+    bottom: calc(100% + 12px)
+    width: max-content
+    text-align: center
+
+  .button
+    outline: none
+    text-decoration: none
+    display: flex
+    flex-direction: row
+    align-items: center
+    cursor: pointer
+    position: relative
+
+    &.has-label
+      background: #ef4444
+      border-radius: 999px
+      padding: 0 1rem 0 0.2rem
+      transition: all 180ms cubic-bezier(0.34, 1.56, 0.64, 1)
+      box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3)
+      margin-left: 0.5rem
+
+      .icon
+        background: transparent
+        box-shadow: none
+        color: white
+        width: 44px
+        height: 44px
+
+      .label
+        color: white
+        font-weight: 600
+        font-size: 0.95rem
+        letter-spacing: 0.01em
+
+      &:hover
+        background: #f87171
+        transform: scale(1.04)
+
+    &:not(.has-label):hover
+      .icon
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2)
+        cursor: pointer
+        background: rgba(255, 255, 255, 0.2)
+        transform: scale(1.08)
+
+      .tooltip
+        opacity: 1
+        visibility: visible
+        transform: translateX(-50%) translateY(0)
+        transition: opacity 180ms ease, transform 180ms cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0ms ease 0ms
+
+    &.on .icon
+      background: rgba(255, 255, 255, 0.25)
+      color: white
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15)
+
+  .buttons-row
+    display: flex
+    border-radius: 48px
+    background: rgba(255, 255, 255, 0.05)
+    padding: 2px
+    gap: 4px
+
+    .button:not(.button:first-child)
+      .icon
+        width: 38px
+        padding-left: 6px
+        padding-right: 6px
+
+  @media (max-width: 400px)
+    gap: 0.25rem
+
+    &.toolbar-call
+      transform: translateX(-50%) scale(0.9)
+      bottom: 1rem
+
+    .icon
+      width: 36px
+      height: 36px
+      font-size: 16px
+      padding: 0.5rem
+
+    .tooltip
+      font-size: 0.7rem
+
+  .dropdown-list::after
+    position: absolute
+    content: ' '
+    border: 0.75rem solid transparent
+    border-top: 0.9rem solid rgba(6, 14, 34, 0.95)
+    left: 50%
+    transform: translateX(-50%)
+
+  .toolbar-btn-chat.blink .icon
+    -webkit-animation: bg-blink 1.2s infinite
+    -moz-animation: bg-blink 1.2s infinite
+    animation: bg-blink 1.2s infinite
+
+@-webkit-keyframes bg_blink
+  0%, 100%
+    background-color: rgba(40, 68, 120, 0.5)
+  50%
+    background-color: #4f8cff
+    box-shadow: 0 0 18px rgba(79, 140, 255, 0.5)
+
+@-moz-keyframes bg-blink
+  0%, 100%
+    background-color: rgba(40, 68, 120, 0.5)
+  50%
+    background-color: #4f8cff
+
+@keyframes bg-blink
+  0%, 100%
+    background-color: rgba(40, 68, 120, 0.5)
+  50%
+    background-color: #4f8cff
+    box-shadow: 0 0 18px rgba(79, 140, 255, 0.5)
