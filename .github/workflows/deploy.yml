@@ -1,0 +1,95 @@
+name: Build & Deploy VidyaX
+
+on:
+    push:
+        branches:
+            - master
+
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            # 📥 Checkout code
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+
+            # 🟢 Setup Node (match your working version)
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 18
+
+            # 🔵 Setup Go (match your working version)
+            - name: Setup Go
+              uses: actions/setup-go@v5
+              with:
+                  go-version: 1.22
+
+            # 📦 Install frontend dependencies
+            - name: Install Node Dependencies
+              run: |
+                  npm install
+
+            # 🔧 Fix permission issue (your sass error fix)
+            - name: Fix node_modules permissions
+              run: |
+                  chmod -R 755 node_modules/.bin
+
+            # 🎨 Build frontend
+            - name: Build Frontend
+              run: |
+                  npm run build
+
+            # ⚙️ Build Go backend binary
+            - name: Build Backend
+              run: |
+                  go mod tidy
+                  go build -o app
+
+            # 📦 Create deployment package
+            - name: Package Build
+              run: |
+                  mkdir deploy
+                  cp -r build deploy/
+                  cp app deploy/
+                  cp config.yml deploy/
+                  tar -czf deploy.tar.gz deploy
+
+            # 🚀 Copy build to EC2
+            - name: Upload to EC2
+              uses: appleboy/scp-action@v0.1.7
+              with:
+                  host: ${{ secrets.EC2_HOST }}
+                  username: ${{ secrets.EC2_USER }}
+                  key: ${{ secrets.EC2_SSH_KEY }}
+                  source: "deploy.tar.gz"
+                  target: "~/apps/vidyax"
+
+            # 🔁 SSH into EC2 and run app
+            - name: Deploy & Run on EC2
+              uses: appleboy/ssh-action@v1.0.3
+              with:
+                  host: ${{ secrets.EC2_HOST }}
+                  username: ${{ secrets.EC2_USER }}
+                  key: ${{ secrets.EC2_SSH_KEY }}
+                  script: |
+                      set -e
+
+                      echo "📦 Extracting build..."
+                      cd ~/apps/vidyax
+                      rm -rf deploy
+                      tar -xzf deploy.tar.gz
+
+                      cd deploy
+
+                      echo "🛑 Stopping old app..."
+                      pm2 stop vidyax-backend || true
+
+                      echo "🚀 Starting new backend..."
+                      pm2 start ./app --name vidyax-backend
+
+                      echo "💾 Saving PM2..."
+                      pm2 save
+
+                      echo "✅ Deployment Done!"
