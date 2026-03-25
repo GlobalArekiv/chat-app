@@ -57,15 +57,17 @@ export class Videos extends React.PureComponent<VideosProps, VideosState> {
     this.toolbarObserver = new ResizeObserver(this.handleToolbarResize)
   }
   getAspectRatio = (): number => {
-    const { defaultAspectRatio, gridKind, maximized } = this.props
+    const { defaultAspectRatio, gridKind } = this.props
 
-    const numWindows = maximized.length
+    // Prefer responsive grid mode on small screens for better readability.
+    if (this.isMobileViewport()) {
+      return 0
+    }
 
-    if (
-      gridKind === SETTINGS_GRID_ASPECT ||
-      gridKind === SETTINGS_GRID_AUTO && numWindows > 2
-    ) {
-      return calcAspectRatio(defaultAspectRatio, maximized)
+    // In auto mode, always keep CSS grid layout so all participants are visible.
+    // Only use aspect-ratio layout when explicitly selected by user setting.
+    if (gridKind === SETTINGS_GRID_ASPECT) {
+      return calcAspectRatio(defaultAspectRatio, this.props.maximized)
     }
 
     return 0
@@ -113,9 +115,8 @@ export class Videos extends React.PureComponent<VideosProps, VideosState> {
     
     if (size === 0) return
 
-    // Auto-calculate optimal columns and rows for an even grid layout
-    const cols = Math.ceil(Math.sqrt(size))
-    const rows = Math.ceil(size / cols)
+    // Smart responsive grid layout for phone, tablet, and desktop.
+    const { rows, cols } = this.calculateOptimalGrid(size, this.state.videoSize.x)
 
     grid.style.display = 'grid'
     grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`
@@ -125,6 +126,49 @@ export class Videos extends React.PureComponent<VideosProps, VideosState> {
     videos.forEach(v => {
       v.style.flexBasis = ''
     })
+  }
+
+  private isMobileViewport(): boolean {
+    const width = this.state.videoSize.x || this.gridRef.current?.getBoundingClientRect().width || 0
+    return width > 0 && width <= 600
+  }
+
+  private calculateOptimalGrid(numVideos: number, containerWidth: number): { rows: number; cols: number } {
+    const width = containerWidth || this.gridRef.current?.getBoundingClientRect().width || 0
+    const isPhone = width > 0 && width <= 600
+    const isTablet = width > 600 && width <= 900
+
+    if (isPhone) {
+      if (numVideos === 1) return { rows: 1, cols: 1 }
+      if (numVideos === 2) return { rows: 2, cols: 1 }
+      if (numVideos <= 4) return { rows: 2, cols: 2 }
+      return { rows: Math.ceil(numVideos / 2), cols: 2 }
+    }
+
+    if (isTablet) {
+      if (numVideos === 1) return { rows: 1, cols: 1 }
+      if (numVideos === 2) return { rows: 1, cols: 2 }
+      if (numVideos <= 4) return { rows: 2, cols: 2 }
+      if (numVideos <= 6) return { rows: 2, cols: 3 }
+      return { rows: Math.ceil(numVideos / 3), cols: 3 }
+    }
+
+    // Smart grid layout for different participant counts
+    if (numVideos === 1) return { rows: 1, cols: 1 }
+    if (numVideos === 2) return { rows: 1, cols: 2 }
+    if (numVideos === 3) return { rows: 2, cols: 2 }
+    if (numVideos === 4) return { rows: 2, cols: 2 }
+    if (numVideos === 5) return { rows: 2, cols: 3 }
+    if (numVideos === 6) return { rows: 2, cols: 3 }
+    if (numVideos <= 9) return { rows: 3, cols: 3 }
+    if (numVideos <= 12) return { rows: 3, cols: 4 }
+    if (numVideos <= 16) return { rows: 4, cols: 4 }
+    if (numVideos <= 20) return { rows: 4, cols: 5 }
+    
+    // For 20+ participants, use a 5-column layout
+    const cols = 5
+    const rows = Math.ceil(numVideos / cols)
+    return { rows, cols }
   }
   maybeUpdateSizeStyle() {
     const {maximized} = this.props
@@ -195,12 +239,17 @@ export class Videos extends React.PureComponent<VideosProps, VideosState> {
       showMinimizedToolbar,
     } = this.props
 
-    const windows = maximized
+    const isMobile = this.isMobileViewport()
+    const mergeMinimizedIntoGrid = isMobile || !showMinimizedToolbar
+    const windows = mergeMinimizedIntoGrid
+      ? [ ...maximized, ...minimized ]
+      : maximized
+    const toolbarStreams = mergeMinimizedIntoGrid ? [] : minimized
 
     this.maybeUpdateSizeStyle()
 
     const toolbarClassName = classNames('videos videos-toolbar', {
-      'hidden': !showMinimizedToolbar || minimized.length === 0,
+      'hidden': mergeMinimizedIntoGrid || toolbarStreams.length === 0,
     })
 
     const isAspectRatio = this.videoStyle !== undefined
@@ -211,7 +260,7 @@ export class Videos extends React.PureComponent<VideosProps, VideosState> {
         key="videos-toolbar"
         ref={this.toolbarRef}
       >
-        {minimized.map(props => (
+        {toolbarStreams.map(props => (
           <Video
             {...props}
             key={props.key}
@@ -224,6 +273,7 @@ export class Videos extends React.PureComponent<VideosProps, VideosState> {
             getReceiverStats={this.getReceiverStats}
             getSenderStats={this.getSenderStats}
             showStats={this.props.showAllStats}
+            isScreenShare={props.isScreenShare}
           />
         ))}
       </div>
@@ -242,6 +292,7 @@ export class Videos extends React.PureComponent<VideosProps, VideosState> {
         getReceiverStats={this.getReceiverStats}
         getSenderStats={this.getSenderStats}
         showStats={this.props.showAllStats}
+        isScreenShare={props.isScreenShare}
       />
     ))
 

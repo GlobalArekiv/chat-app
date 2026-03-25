@@ -1,4 +1,4 @@
-import { SETTINGS_SHOW_MINIMIZED_TOOLBAR_TOGGLE, SETTINGS_GRID_SET, SETTINGS_GRID_AUTO, SETTINGS_GRID_LEGACY, SETTINGS_GRID_ASPECT, SETTINGS_SHOW_ALL_STATS_TOGGLE } from '../constants'
+import { SETTINGS_SHOW_MINIMIZED_TOOLBAR_TOGGLE, SETTINGS_GRID_SET, SETTINGS_GRID_AUTO, SETTINGS_GRID_LEGACY, SETTINGS_GRID_ASPECT, SETTINGS_SHOW_ALL_STATS_TOGGLE, SETTINGS_HAND_RAISE_TOGGLE } from '../constants'
 
 export interface ShowMinimizedToolbarToggleAction {
   type: 'SETTINGS_SHOW_MINIMIZED_TOOLBAR_TOGGLE'
@@ -15,6 +15,10 @@ export interface ShowAllStatsToggleAction {
   type: 'SETTINGS_SHOW_ALL_STATS_TOGGLE'
 }
 
+export interface HandRaiseToggleAction {
+  type: 'SETTINGS_HAND_RAISE_TOGGLE'
+}
+
 export function showMinimizedToolbarToggle(
 ): ShowMinimizedToolbarToggleAction {
   return {
@@ -26,6 +30,13 @@ export function showAllStatsToggle(
 ): ShowAllStatsToggleAction {
   return {
     type: SETTINGS_SHOW_ALL_STATS_TOGGLE,
+  }
+}
+
+export function handRaiseToggle(
+): HandRaiseToggleAction {
+  return {
+    type: SETTINGS_HAND_RAISE_TOGGLE,
   }
 }
 
@@ -54,4 +65,5 @@ export function setGridKind(
 export type SettingsAction =
   ShowMinimizedToolbarToggleAction |
   UseFlexLayoutToggleAction |
-  ShowAllStatsToggleAction
+  ShowAllStatsToggleAction |
+  HandRaiseToggleAction

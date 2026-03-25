@@ -1,8 +1,9 @@
 import classnames from 'classnames'
 import React from 'react'
-import { MdCallEnd, MdContentCopy, MdFullscreen, MdFullscreenExit, MdLock, MdLockOpen, MdQuestionAnswer, MdScreenShare, MdShare, MdStopScreenShare, MdWarning } from 'react-icons/md'
+import { MdCallEnd, MdContentCopy, MdFullscreen, MdFullscreenExit, MdLock, MdLockOpen, MdPanTool, MdQuestionAnswer, MdScreenShare, MdShare, MdStopScreenShare, MdWarning } from 'react-icons/md'
 import screenfull from 'screenfull'
 import { getDesktopStream } from '../actions/MediaActions'
+import { handRaiseToggle } from '../actions/SettingsActions'
 import { Panel, sidebarPanelChat } from '../actions/SidebarActions'
 import { removeLocalStream } from '../actions/StreamActions'
 import { DialState, DIAL_STATE_IN_CALL } from '../constants'
@@ -24,6 +25,8 @@ export interface ToolbarProps {
   onToggleSidebar: () => void
   onGetDesktopStream: typeof getDesktopStream
   onRemoveLocalStream: typeof removeLocalStream
+  handRaised?: boolean
+  onHandRaiseToggle?: typeof handRaiseToggle
   onHangup: () => void
   sidebarVisible: boolean
   sidebarPanel: Panel
@@ -91,7 +94,9 @@ export default class Toolbar extends React.PureComponent<
     }
   }
   handleHangoutClick = () => {
-    window.location.href = '/'
+    sessionStorage.removeItem('vidyax:last-call-path')
+    sessionStorage.removeItem('vidyax:refresh-ts')
+    window.location.href = config.baseUrl + '/'
   }
   toggleEncryptionDialog = () => {
     const encryptionDialogVisible = !this.state.encryptionDialogVisible
@@ -147,6 +152,11 @@ export default class Toolbar extends React.PureComponent<
       readMessages: this.props.messagesCount,
     })
     this.props.onToggleSidebar()
+  }
+  handleHandRaiseToggle = () => {
+    if (this.props.onHandRaiseToggle) {
+      this.props.onHandRaiseToggle()
+    }
   }
   render() {
     const { messagesCount } = this.props
@@ -254,6 +264,15 @@ export default class Toolbar extends React.PureComponent<
             />
 
             <AudioDropdown />
+
+            <ToolbarButton
+              onClick={this.handleHandRaiseToggle}
+              key='raise-hand'
+              className='raise-hand'
+              icon={MdPanTool}
+              on={this.props.handRaised}
+              title={this.props.handRaised ? 'Lower Hand' : 'Raise Hand'}
+            />
 
             <ToolbarButton
               onClick={this.handleFullscreenClick}

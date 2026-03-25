@@ -1,11 +1,12 @@
 import { GridKind, GridKinds, SettingsAction } from '../actions/SettingsActions'
-import { SETTINGS_GRID_AUTO, SETTINGS_GRID_SET, SETTINGS_SHOW_ALL_STATS_TOGGLE, SETTINGS_SHOW_MINIMIZED_TOOLBAR_TOGGLE } from '../constants'
+import { SETTINGS_GRID_AUTO, SETTINGS_GRID_SET, SETTINGS_HAND_RAISE_TOGGLE, SETTINGS_SHOW_ALL_STATS_TOGGLE, SETTINGS_SHOW_MINIMIZED_TOOLBAR_TOGGLE } from '../constants'
 import { localStorage } from '../window'
 
 export interface SettingsState {
   showMinimizedToolbar: boolean
   gridKind: GridKind
   showAllStats: boolean
+  handRaised: boolean
 }
 
 const settingsKey = 'settings'
@@ -15,6 +16,7 @@ function init(): SettingsState {
     showMinimizedToolbar: true,
     gridKind: SETTINGS_GRID_AUTO,
     showAllStats: false,
+    handRaised: false,
   }
 }
 
@@ -33,6 +35,7 @@ function withDefault(
         : init.showMinimizedToolbar,
     gridKind : GridKinds[state.gridKind as string] || SETTINGS_GRID_AUTO,
     showAllStats: !!state.showAllStats,
+    handRaised: !!state.handRaised,
   }
 }
 
@@ -84,6 +87,11 @@ export default function settings(
     return save({
       ...state,
       showAllStats: !state.showAllStats,
+    })
+  case SETTINGS_HAND_RAISE_TOGGLE:
+    return save({
+      ...state,
+      handRaised: !state.handRaised,
     })
   default:
     return state

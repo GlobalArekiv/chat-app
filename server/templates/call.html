@@ -8,6 +8,18 @@
   <input type="hidden" id="config" value="{{.Data}}">
   <div id="container"></div>
   <noscript>JavaScript must be enabled for this application</noscript>
+  <script>
+    (function () {
+      try {
+        var callPath = window.location.pathname + window.location.search + window.location.hash;
+        sessionStorage.setItem('vidyax:last-call-path', callPath);
+
+        window.addEventListener('beforeunload', function () {
+          sessionStorage.setItem('vidyax:refresh-ts', String(Date.now()));
+        });
+      } catch (_e) {}
+    })();
+  </script>
   <script src="{{.BaseURL}}/static/index.js?{{.Version}}"></script>
 </body>
 </html>

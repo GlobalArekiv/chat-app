@@ -2,6 +2,7 @@ import classnames from 'classnames'
 import React, { ReactEventHandler } from 'react'
 import { MdCrop, MdInfoOutline, MdMenu, MdZoomIn, MdZoomOut } from 'react-icons/md'
 import { MaximizeParams, MinimizeTogglePayload, StreamDimensionsPayload } from '../actions/StreamActions'
+import { AudioMessage, audioProcessor } from '../audio'
 import { Dim } from '../frame'
 import { ReceiverStatsParams } from '../reducers/receivers'
 import { StreamWithURL } from '../reducers/streams'
@@ -19,6 +20,7 @@ export interface VideoProps {
   stream?: StreamWithURL
   peerId: string
   muted: boolean
+  micMuted?: boolean
   mirrored: boolean
   play: () => void
   localUser?: boolean
@@ -32,11 +34,14 @@ export interface VideoProps {
     track: MediaStreamTrack,
   ) => Promise<{peerId: string, stats: RTCStatsReport}[]>
   showStats?: boolean
+  isScreenShare?: boolean
+  handRaised?: boolean
 }
 
 export interface VideoState {
   objectFit: string
   showStats: boolean
+  isSpeaking: boolean
 }
 
 export default class Video
@@ -44,16 +49,92 @@ extends React.PureComponent<VideoProps, VideoState> {
   state = {
     objectFit: '',
     showStats: false,
+    isSpeaking: false,
   }
 
   statsTimeout: NodeJS.Timeout | undefined
+  speakingTimeout: NodeJS.Timeout | undefined
+  lastSpeakingUpdateTs = 0
 
   static defaultProps = {
     muted: false,
     mirrored: false,
   }
+
+  private speakingUnsubscribe: (() => void) | null = null
+
+  componentDidMount() {
+    this.subscribeSpeakingDetection()
+  }
+
+  componentDidUpdate(prevProps: VideoProps) {
+    // Resubscribe if stream ID changed
+    if (prevProps.stream?.streamId !== this.props.stream?.streamId) {
+      this.unsubscribeSpeakingDetection()
+      this.subscribeSpeakingDetection()
+    }
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeSpeakingDetection()
+
+    if (this.speakingTimeout) {
+      clearTimeout(this.speakingTimeout)
+    }
+  }
+
   handleClick: ReactEventHandler<HTMLVideoElement> = () => {
     this.props.play()
+  }
+
+  subscribeSpeakingDetection = () => {
+    const { stream, localUser } = this.props
+    // Skip local user speaking highlight to reduce extra local processing.
+    if (!stream || localUser) {
+      return
+    }
+
+    this.speakingUnsubscribe = audioProcessor.subscribe(
+      stream.streamId,
+      this.handleAudioMessage,
+    )
+  }
+
+  unsubscribeSpeakingDetection = () => {
+    if (this.speakingUnsubscribe) {
+      this.speakingUnsubscribe()
+      this.speakingUnsubscribe = null
+    }
+  }
+
+  handleAudioMessage = (msg: AudioMessage) => {
+    if (msg.type !== 'volume') {
+      return
+    }
+
+    const now = Date.now()
+    if (now - this.lastSpeakingUpdateTs < 120) {
+      return
+    }
+    this.lastSpeakingUpdateTs = now
+
+    // Detect speaking if volume is above threshold (level 2+)
+    const isSpeaking = msg.volume > 0.38
+
+    if (isSpeaking !== this.state.isSpeaking) {
+      this.setState({ isSpeaking })
+
+      // Auto-reset speaking status after 300ms of silence
+      if (this.speakingTimeout) {
+        clearTimeout(this.speakingTimeout)
+      }
+
+      if (!isSpeaking) {
+        this.speakingTimeout = setTimeout(() => {
+          this.setState({ isSpeaking: false })
+        }, 300)
+      }
+    }
   }
   handleMinimize = () => {
     this.props.onMinimizeToggle({
@@ -72,7 +153,7 @@ extends React.PureComponent<VideoProps, VideoState> {
       objectFit: this.state.objectFit ? '' : 'contain',
     })
   }
-  handleLoadedMetadata = (e: React.SyntheticEvent<HTMLVideoElement>) => {
+  handleLoadedMetadata = (_e: React.SyntheticEvent<HTMLVideoElement>) => {
     this.props.play()
   }
   handleResize = (dimensions: Dim) => {
@@ -93,12 +174,15 @@ extends React.PureComponent<VideoProps, VideoState> {
     })
   }
   render () {
-    const { forceContain, mirrored, peerId, windowState, stream } = this.props
+    const { forceContain, mirrored, peerId, windowState, stream, isScreenShare } = this.props
+    const { isSpeaking } = this.state
     const showStats = this.state.showStats || this.props.showStats
     const minimized =  windowState === 'minimized'
     const className = classnames('video-container', {
       minimized,
       mirrored,
+      'active-speaker': isSpeaking,
+      'is-screen-share': isScreenShare,
     })
 
     const streamId = stream && stream.streamId
@@ -113,6 +197,11 @@ extends React.PureComponent<VideoProps, VideoState> {
 
     return (
       <div className={className} style={this.props.style}>
+        {isScreenShare && (
+          <div className='screen-share-badge'>
+            <span>🖥️ Screen Shared</span>
+          </div>
+        )}
         <VideoSrc
           id={`video-${peerId}-${streamId}`}
           autoPlay
@@ -142,8 +231,11 @@ extends React.PureComponent<VideoProps, VideoState> {
               {this.props.nickname.charAt(0).toUpperCase()}
             </div>
             <span className='nickname'>{this.props.nickname}</span>
-            {this.props.muted && (
+            {this.props.micMuted && (
               <span className='status-badge muted'>Muted</span>
+            )}
+            {this.props.handRaised && (
+              <span className='status-badge hand-raised'>Hand Raised</span>
             )}
             <span className='status-badge quality-good'>HD</span>
           </div>

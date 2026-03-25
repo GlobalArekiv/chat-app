@@ -6,6 +6,21 @@
     {{template "header" .}}
 </head>
 <body>
+  <script>
+    (function () {
+      try {
+        var lastCallPath = sessionStorage.getItem('vidyax:last-call-path');
+        var refreshTs = parseInt(sessionStorage.getItem('vidyax:refresh-ts') || '0', 10);
+        var isRecentRefresh = refreshTs > 0 && (Date.now() - refreshTs) < 20000;
+        var isCallPath = !!lastCallPath && /\/call\//.test(lastCallPath);
+
+        if (isRecentRefresh && isCallPath) {
+          sessionStorage.removeItem('vidyax:refresh-ts');
+          window.location.replace(lastCallPath);
+        }
+      } catch (_e) {}
+    })();
+  </script>
   <div id="container">
     <form id="form" method="post" action="{{.BaseURL}}/call" autocomplete="off">
       <div class="form-header">

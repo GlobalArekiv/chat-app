@@ -3,6 +3,7 @@ import { hangUp, init } from '../actions/CallActions'
 import { sendFile, sendText } from '../actions/ChatActions'
 import { getDesktopStream, play } from '../actions/MediaActions'
 import { dismissNotification } from '../actions/NotifyActions'
+import { handRaiseToggle } from '../actions/SettingsActions'
 import { sidebarHide, sidebarShow, sidebarToggle } from '../actions/SidebarActions'
 import { maximize, minimizeToggle, removeLocalStream, setStreamDimensions } from '../actions/StreamActions'
 import App from '../components/App'
@@ -39,6 +40,7 @@ const mapDispatchToProps = {
   sidebarHide,
   sidebarShow,
   setStreamDimensions,
+  handRaiseToggle,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

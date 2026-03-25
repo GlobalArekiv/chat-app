@@ -14,6 +14,8 @@ function noop() {}
 export default class VUMeter
 extends React.PureComponent<VUMeterProps, VUMeterState> {
   private unsubscribe: () => void = noop
+  private lastLevel = 0
+  private lastUpdateTs = 0
 
   state: VUMeterState = {
     volume: 0,
@@ -56,9 +58,19 @@ extends React.PureComponent<VUMeterProps, VUMeterState> {
 
     // ease out function.
     const scaled = 1 - Math.pow(1 - msg.volume, 3)
+    const level = Math.round(scaled * 5)
+    const now = Date.now()
+
+    // Avoid excessive re-renders for high-frequency worklet messages.
+    if (level === this.lastLevel || now - this.lastUpdateTs < 80) {
+      return
+    }
+
+    this.lastLevel = level
+    this.lastUpdateTs = now
 
     this.setState({
-      volume: Math.round(scaled * 5),
+      volume: level,
     })
   }
 

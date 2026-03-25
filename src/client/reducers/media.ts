@@ -25,7 +25,11 @@ export interface MediaState {
 
 const defaultConstraints = {
   video: { facingMode: 'user' },
-  audio: {},
+  audio: {
+    echoCancellation: true,
+    noiseSuppression: true,
+    autoGainControl: true,
+  },
 }
 
 interface PersistedState {
@@ -53,8 +57,20 @@ function loadConstraints(): PersistedState {
   }
 
   return {
-    audio: state.audio || defaultPersistedState.audio,
-    video: state.video || defaultPersistedState.video,
+    audio: {
+      enabled: state.audio ? state.audio.enabled : defaultPersistedState.audio.enabled,
+      constraints: {
+        ...defaultPersistedState.audio.constraints,
+        ...(state.audio ? state.audio.constraints : {}),
+      },
+    },
+    video: {
+      enabled: state.video ? state.video.enabled : defaultPersistedState.video.enabled,
+      constraints: {
+        ...defaultPersistedState.video.constraints,
+        ...(state.video ? state.video.constraints : {}),
+      },
+    },
   }
 }
 
@@ -215,8 +231,11 @@ export function handleDeviceId(
   let { constraints } = state[payload.kind]
 
   if (payload.deviceId !== '') {
-    const defaultKeys = Object.keys(defaultConstraints[payload.kind])
-    constraints = omit(constraints, defaultKeys)
+    // Keep audio processing defaults (echo cancellation, etc.) when changing mic.
+    if (payload.kind === 'video') {
+      const defaultKeys = Object.keys(defaultConstraints[payload.kind])
+      constraints = omit(constraints, defaultKeys)
+    }
     constraints.deviceId = payload.deviceId
   } else {
     constraints = omit(constraints, 'deviceId')

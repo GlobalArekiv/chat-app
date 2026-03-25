@@ -4,6 +4,7 @@ import React from 'react'
 import { hangUp } from '../actions/CallActions'
 import { getDesktopStream } from '../actions/MediaActions'
 import { dismissNotification, Notification } from '../actions/NotifyActions'
+import { handRaiseToggle } from '../actions/SettingsActions'
 import { Panel, sidebarPanelChat } from '../actions/SidebarActions'
 import { MaximizeParams, MinimizeTogglePayload, removeLocalStream, setStreamDimensions, StreamTypeDesktop } from '../actions/StreamActions'
 import * as constants from '../constants'
@@ -45,6 +46,7 @@ export interface AppProps {
   sidebarToggle: () => void
   sidebarHide: () => void
   sidebarShow: (panel?: Panel) => void
+  handRaiseToggle: typeof handRaiseToggle
 }
 
 export default class App extends React.PureComponent<AppProps> {
@@ -89,9 +91,11 @@ export default class App extends React.PureComponent<AppProps> {
           sidebarPanel={this.props.sidebarPanel}
           sidebarVisible={this.props.sidebarVisible}
           dialState={this.props.dialState}
+          handRaised={settings.handRaised}
           messagesCount={messagesCount}
           nickname={nicknames[constants.ME]}
           onToggleSidebar={this.sidebarShowChat}
+          onHandRaiseToggle={this.props.handRaiseToggle}
           onHangup={this.onHangup}
           desktopStream={localStreams[StreamTypeDesktop]}
           onGetDesktopStream={this.props.getDesktopStream}
