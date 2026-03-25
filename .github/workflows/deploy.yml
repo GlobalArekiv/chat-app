@@ -50,11 +50,17 @@ jobs:
             # 📦 Create deployment package
             - name: Package Build
               run: |
-                  mkdir deploy
-                  cp -r build deploy/
-                  cp app deploy/
-                  cp config.yml deploy/
-                  tar -czf deploy.tar.gz deploy
+                  set -e
+
+                    echo "🧹 Cleaning old deploy folder..."
+                    rm -rf deploy deploy.tar.gz
+
+                    echo "📦 Creating fresh deploy..."
+                    mkdir -p deploy
+                    cp -r build deploy/
+                    cp app deploy/
+                    cp config.yml deploy/
+                    tar -czf deploy.tar.gz deploy
 
             # 🚀 Copy build to EC2
             - name: Upload to EC2
