@@ -108,11 +108,6 @@ func ReadConfigFromEnv(prefix string, c *Config) {
 	setEnvBool(&c.Frontend.EncodedInsertableStreams, prefix+"FRONTEND_ENCODED_INSERTABLE_STREAMS")
 }
 
-func setEnvSlice(dest *[]string, name string) {
-	value := os.Getenv(name)
-	setSlice(dest, value)
-}
-
 func setSlice(dest *[]string, value string) {
 	for _, v := range strings.Split(value, ",") {
 		if v != "" {

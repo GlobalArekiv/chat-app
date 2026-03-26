@@ -146,6 +146,11 @@ func NewMux(
 		})
 
 		router.Mount("/ws", wsHandler)
+
+		// API endpoints
+		router.Get("/api/health", corsMiddleware(apiHealth))
+		router.Post("/api/rooms/create", corsMiddleware(apiCreateRoom))
+		router.Get("/api/rooms/{roomID}/status", corsMiddleware(apiRoomStatus))
 	})
 
 	return mux

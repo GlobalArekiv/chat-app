@@ -23,7 +23,7 @@ func errIs(err error, target error) bool {
 	return pkgErrors.Is(err, target)
 }
 
-func configureRedis(t *testing.T) (*redis.Client, *redis.Client, func()) {
+func configureRedis(_ *testing.T) (*redis.Client, *redis.Client, func()) {
 	subRedis := redis.NewClient(&redis.Options{
 		Addr:        "localhost:6379",
 		DialTimeout: 10 * time.Second,

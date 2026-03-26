@@ -126,16 +126,6 @@ func mustWriteWS(t *testing.T, ctx context.Context, ws *websocket.Conn, msg mess
 	require.Nil(t, err, "Error writing message")
 }
 
-func mustReadWS(t *testing.T, ctx context.Context, ws *websocket.Conn) message.Message {
-	t.Helper()
-	messageType, data, err := ws.Read(ctx)
-	require.NoError(t, err, "Error reading text message")
-	require.Equal(t, websocket.MessageText, messageType, "Expected to read text message")
-	msg, err := serializer.Deserialize(data)
-	require.Nil(t, err, "Error deserializing message")
-	return msg
-}
-
 func setupMeshServer(rooms server.RoomManager) (s *httptest.Server, url string) {
 	log := logger.New()
 	handler := server.NewMeshHandler(log, server.NewWSS(log, rooms))

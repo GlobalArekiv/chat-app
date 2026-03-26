@@ -246,7 +246,7 @@ func (a *RedisAdapter) handleMessage(
 		return errors.Annotate(err, "deserialize redis subscription")
 	}
 
-	handleRoomJoin := func(roomID identifiers.RoomID, join message.RoomJoin) error {
+	handleRoomJoin := func(_ identifiers.RoomID, join message.RoomJoin) error {
 		a.clientsMu.RLock()
 		clients := a.localClients()
 		a.clientsMu.RUnlock()
@@ -265,7 +265,7 @@ func (a *RedisAdapter) handleMessage(
 		return errors.Annotate(err, "room join")
 	}
 
-	handleRoomLeave := func(roomID identifiers.RoomID, clientID identifiers.ClientID) error {
+	handleRoomLeave := func(_ identifiers.RoomID, clientID identifiers.ClientID) error {
 		a.clientsMu.RLock()
 		clients := a.localClients()
 		a.clientsMu.RUnlock()
